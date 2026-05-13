@@ -1,635 +1,725 @@
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naturaxe Guide — Encyclopédie des Remèdes Naturels</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+:root{
+  --green-900:#0d2e08;--green-800:#1a5010;--green-700:#236614;--green-600:#2d7a18;
+  --green-500:#3a9420;--green-400:#5ab03a;--green-300:#82ca5e;--green-200:#b8e299;
+  --green-100:#dff2cc;--green-50:#f2faeb;
+  --amber-800:#7a4800;--amber-600:#c47800;--amber-400:#e8a820;--amber-100:#fef5dc;--amber-50:#fffbf0;
+  --teal-800:#0a4a40;--teal-600:#0d7a68;--teal-400:#1ab09a;--teal-100:#d0f5ef;--teal-50:#edfaf8;
+  --coral-800:#8a1a0a;--coral-600:#c83020;--coral-400:#f06040;--coral-100:#fde0da;--coral-50:#fff5f3;
+  --purple-800:#3a1070;--purple-600:#6a30b0;--purple-400:#9a60e8;--purple-100:#ead8ff;--purple-50:#f7f0ff;
+  --gray-900:#111;--gray-800:#222;--gray-700:#444;--gray-600:#666;--gray-400:#999;--gray-200:#e8e8e8;--gray-100:#f5f5f5;--gray-50:#fafafa;
+  --bg:#0f1a0a;--surface:#1a2614;--surface2:#223018;--border:#2d4020;--border2:#3d5530;
+  --text:#f0f5ea;--text-muted:#9ab080;--text-dim:#6a8050;
+  --font-display:'Playfair Display',Georgia,serif;
+  --font-body:'DM Sans',system-ui,sans-serif;
+  --radius:12px;--radius-lg:18px;--radius-xl:24px;
+  --shadow:0 4px 24px rgba(0,0,0,.5);--shadow-lg:0 12px 48px rgba(0,0,0,.6);
+}
 *{box-sizing:border-box;margin:0;padding:0}
-body,div,button,input,span,p,ul,li,h3,a{font-family:system-ui,-apple-system,sans-serif}
-body{background:#0f1a0a;color:#f0f5ea;min-height:400px}
-.hero{background:linear-gradient(135deg,#0d2e08,#1e3a10);padding:16px;border-bottom:1px solid #2d4020;display:flex;align-items:center;gap:12px}
-.logo{width:44px;height:44px;background:linear-gradient(135deg,#3a9420,#236614);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.brand{font-size:20px;font-weight:700;color:#fff}
-.brand small{display:block;font-size:10px;color:#82ca5e;font-weight:400;letter-spacing:1px;text-transform:uppercase}
-.hero-r{margin-left:auto;display:flex;gap:12px}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--surface)}
+::-webkit-scrollbar-thumb{background:var(--green-600);border-radius:3px}
+
+/* ── HERO HEADER ── */
+.hero{background:linear-gradient(135deg,var(--green-900) 0%,#1e3a10 50%,#0d2a18 100%);padding:32px 24px 24px;position:relative;overflow:hidden;border-bottom:1px solid var(--border2)}
+.hero::before{content:'';position:absolute;top:-40px;right:-40px;width:280px;height:280px;background:radial-gradient(circle,rgba(90,176,58,.12) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:'🌿';position:absolute;right:24px;top:50%;transform:translateY(-50%);font-size:80px;opacity:.07}
+.hero-inner{max-width:900px;margin:0 auto}
+.logo-row{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.logo-badge{width:52px;height:52px;background:linear-gradient(135deg,var(--green-500),var(--green-700));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 16px rgba(58,148,32,.4);flex-shrink:0}
+.logo-title{font-family:var(--font-display);font-size:28px;font-weight:700;color:#fff;line-height:1}
+.logo-sub{font-size:11px;color:var(--green-300);margin-top:3px;letter-spacing:1.5px;text-transform:uppercase}
+.hero-desc{font-size:14px;color:var(--text-muted);max-width:520px;line-height:1.6;margin-bottom:20px}
+.hero-stats{display:flex;gap:20px;flex-wrap:wrap}
 .stat{text-align:center}
-.stat b{display:block;font-size:18px;color:#82ca5e;font-weight:700}
-.stat s{font-size:9px;color:#6a8050;text-transform:uppercase;letter-spacing:.5px;text-decoration:none;display:block}
+.stat-n{font-size:22px;font-weight:700;color:var(--green-300);font-family:var(--font-display)}
+.stat-l{font-size:11px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px}
 
-.bar{background:#1a2614;border-bottom:1px solid #2d4020;padding:10px 14px;position:sticky;top:0;z-index:50}
-.srow{display:flex;gap:8px;margin-bottom:8px}
-.sw{position:relative;flex:1}
-.sw input{width:100%;padding:9px 12px 9px 34px;border:1.5px solid #3d5530;border-radius:22px;background:#223018;color:#f0f5ea;font-size:13px;outline:none}
-.sw input:focus{border-color:#5ab03a;box-shadow:0 0 0 2px rgba(90,176,58,.2)}
-.sw input::placeholder{color:#6a8050}
-.si{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:15px}
-.wabtn{background:#25d366;color:#fff;border:none;padding:9px 14px;border-radius:22px;font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap;display:flex;align-items:center;gap:5px}
-.cats{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
-.cats::-webkit-scrollbar{height:2px}
-.cats::-webkit-scrollbar-thumb{background:#3a9420}
-.cb{flex-shrink:0;padding:5px 12px;border-radius:16px;border:1px solid #2d4020;background:transparent;color:#9ab080;font-size:11px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s}
-.cb:hover{border-color:#3a9420;color:#82ca5e}
-.cb.on{background:#2d7a18;border-color:#5ab03a;color:#fff}
+/* ── SEARCH ── */
+.search-zone{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 20px;position:sticky;top:0;z-index:100;backdrop-filter:blur(10px)}
+.search-inner{max-width:900px;margin:0 auto;display:flex;gap:10px;align-items:center}
+.search-wrap{position:relative;flex:1}
+.search-wrap input{width:100%;padding:11px 16px 11px 42px;border:1px solid var(--border2);border-radius:30px;background:var(--surface2);color:var(--text);font-size:14px;font-family:var(--font-body);outline:none;transition:.2s}
+.search-wrap input::placeholder{color:var(--text-dim)}
+.search-wrap input:focus{border-color:var(--green-500);box-shadow:0 0 0 3px rgba(90,176,58,.15)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:17px;opacity:.5}
+.wa-btn{display:flex;align-items:center;gap:8px;background:#25d366;color:#fff;border:none;border-radius:30px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;text-decoration:none;font-family:var(--font-body);transition:.15s;box-shadow:0 2px 12px rgba(37,211,102,.35)}
+.wa-btn:hover{background:#1fba5c;transform:translateY(-1px);box-shadow:0 4px 20px rgba(37,211,102,.45)}
+.wa-btn svg{width:18px;height:18px;flex-shrink:0}
 
-.main{padding:12px 14px}
-.info{font-size:11px;color:#6a8050;margin-bottom:10px}
-.info b{color:#82ca5e;font-size:13px}
+/* ── CATEGORIES ── */
+.cats-zone{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 20px}
+.cats-inner{max-width:900px;margin:0 auto;display:flex;gap:8px;overflow-x:auto;padding-bottom:2px}
+.cats-inner::-webkit-scrollbar{height:3px}
+.cat-btn{display:flex;align-items:center;gap:6px;padding:7px 16px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text-muted);font-size:12.5px;font-weight:500;cursor:pointer;white-space:nowrap;transition:.15s;font-family:var(--font-body)}
+.cat-btn:hover{border-color:var(--green-500);color:var(--green-300);background:rgba(90,176,58,.08)}
+.cat-btn.on{background:linear-gradient(135deg,var(--green-700),var(--green-600));border-color:var(--green-500);color:#fff;box-shadow:0 2px 10px rgba(58,148,32,.3)}
+.cat-btn .cem{font-size:15px}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:9px;margin-bottom:18px}
-.card{background:#1a2614;border:1px solid #2d4020;border-radius:13px;padding:12px 10px;cursor:pointer;text-align:center;transition:all .15s}
-.card:hover{border-color:#3a9420;transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.4)}
-.card.sel{border:1.5px solid #5ab03a;background:rgba(58,148,32,.12)}
-.em{font-size:26px;display:block;margin-bottom:5px}
-.cn{font-size:11px;font-weight:600;color:#f0f5ea;line-height:1.3;margin-bottom:3px}
-.cc{font-size:9.5px;color:#6a8050;margin-bottom:5px}
-.bdg{display:inline-block;padding:2px 7px;border-radius:8px;font-size:9px;font-weight:600}
-.ga{background:rgba(232,168,32,.15);color:#e8c060;border:1px solid rgba(232,168,32,.2)}
-.gg{background:rgba(58,148,32,.18);color:#82ca5e;border:1px solid rgba(90,176,58,.2)}
-.gt{background:rgba(26,176,154,.15);color:#50d0bc;border:1px solid rgba(26,176,154,.2)}
-.gc{background:rgba(240,96,64,.12);color:#f09080;border:1px solid rgba(240,96,64,.18)}
-.gp{background:rgba(154,96,232,.12);color:#c090ff;border:1px solid rgba(154,96,232,.18)}
+/* ── MAIN LAYOUT ── */
+.main{max-width:900px;margin:0 auto;padding:20px}
+.count-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.count-label{font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px}
+.count-n{font-weight:700;color:var(--green-400);font-size:16px}
 
-.fiche{background:#1a2614;border:1.5px solid #3d5530;border-radius:16px;overflow:hidden;margin-bottom:12px}
-.fh{background:linear-gradient(135deg,#0d2e08,#162a0a);padding:16px;display:flex;gap:12px;border-bottom:1px solid #2d4020}
-.fem{font-size:44px;line-height:1;flex-shrink:0}
-.ftag{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#82ca5e;font-weight:600;margin-bottom:3px}
-.ftit{font-size:18px;font-weight:700;color:#fff;margin-bottom:3px}
-.fsub{font-size:11px;color:#9ab080;margin-bottom:8px}
-.fbd{display:flex;flex-wrap:wrap;gap:4px}
-.fb{display:inline-block;padding:3px 10px;border-radius:12px;font-size:10px;font-weight:600;background:rgba(58,148,32,.2);color:#82ca5e;border:1px solid rgba(90,176,58,.25)}
+/* ── PRODUCT GRID ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px;margin-bottom:24px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 12px;cursor:pointer;transition:all .2s;text-align:center;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--green-600),var(--green-400));opacity:0;transition:.2s}
+.card:hover{border-color:var(--green-600);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.card:hover::before{opacity:1}
+.card.sel{border-color:var(--green-500);background:linear-gradient(135deg,rgba(58,148,32,.15),rgba(45,122,24,.08));box-shadow:0 0 0 2px rgba(90,176,58,.25),0 8px 24px rgba(0,0,0,.4)}
+.card.sel::before{opacity:1}
+.card-em{font-size:32px;margin-bottom:8px;display:block}
+.card-name{font-size:12px;font-weight:600;color:var(--text);line-height:1.35;margin-bottom:4px}
+.card-cat{font-size:10.5px;color:var(--text-dim);margin-bottom:8px}
+.badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:10px;font-weight:600;letter-spacing:.3px}
+.b-green{background:rgba(58,148,32,.2);color:var(--green-300);border:1px solid rgba(90,176,58,.25)}
+.b-amber{background:rgba(232,168,32,.15);color:#e8c060;border:1px solid rgba(232,168,32,.25)}
+.b-teal{background:rgba(26,176,154,.15);color:#50d0bc;border:1px solid rgba(26,176,154,.25)}
+.b-coral{background:rgba(240,96,64,.15);color:#f09080;border:1px solid rgba(240,96,64,.25)}
+.b-purple{background:rgba(154,96,232,.15);color:#c090ff;border:1px solid rgba(154,96,232,.25)}
 
-.tabs{display:flex;overflow-x:auto;background:#223018;border-bottom:1px solid #2d4020}
+/* ── FICHE PANEL ── */
+.fiche-panel{background:var(--surface);border:1px solid var(--border2);border-radius:var(--radius-xl);overflow:hidden;margin-bottom:16px;box-shadow:var(--shadow-lg)}
+.fiche-hero{background:linear-gradient(135deg,var(--green-900),var(--green-800));padding:24px;display:flex;gap:20px;align-items:flex-start;border-bottom:1px solid var(--border2)}
+.fiche-em{font-size:56px;line-height:1;flex-shrink:0}
+.fiche-meta{flex:1}
+.fiche-cat-tag{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--green-400);margin-bottom:6px;font-weight:600}
+.fiche-title{font-family:var(--font-display);font-size:22px;font-weight:700;color:#fff;line-height:1.2;margin-bottom:6px}
+.fiche-sub{font-size:13px;color:var(--text-muted);margin-bottom:12px}
+.fiche-badges{display:flex;flex-wrap:wrap;gap:6px}
+.fiche-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600}
+.fb-green{background:rgba(58,148,32,.25);color:var(--green-300);border:1px solid rgba(90,176,58,.3)}
+.fb-amber{background:rgba(232,168,32,.2);color:#e8c060;border:1px solid rgba(232,168,32,.3)}
+.fb-teal{background:rgba(26,176,154,.2);color:#50d0bc;border:1px solid rgba(26,176,154,.3)}
+
+/* ── TABS ── */
+.tabs{display:flex;border-bottom:1px solid var(--border);background:var(--surface2);overflow-x:auto}
 .tabs::-webkit-scrollbar{height:2px}
-.tab{flex-shrink:0;padding:9px 13px;font-size:11px;font-weight:500;color:#6a8050;cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;white-space:nowrap;transition:.12s}
-.tab:hover{color:#9ab080}
-.tab.on{color:#82ca5e;border-bottom-color:#3a9420}
+.tab{flex-shrink:0;padding:12px 18px;font-size:12.5px;font-weight:500;color:var(--text-dim);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--font-body);transition:.15s;white-space:nowrap}
+.tab:hover{color:var(--text-muted)}
+.tab.on{color:var(--green-300);border-bottom-color:var(--green-500)}
 
-.fcont{padding:16px;font-size:12.5px;line-height:1.75;color:#9ab080}
-.fcont h3{font-size:12.5px;font-weight:700;color:#82ca5e;margin:12px 0 5px;padding-left:8px;border-left:2px solid #3a9420}
-.fcont h3:first-child{margin-top:0}
-.fcont ul{padding-left:16px;margin:4px 0 8px}
-.fcont li{margin-bottom:3px}
-.fcont p{margin-bottom:6px}
-.bx{padding:9px 12px;border-radius:8px;margin:7px 0;font-size:12px;line-height:1.5}
-.bg{background:rgba(58,148,32,.12);border-left:3px solid #3a9420;color:#82ca5e}
-.ba{background:rgba(232,168,32,.1);border-left:3px solid #e8a820;color:#e8c060}
-.br{background:rgba(240,96,64,.1);border-left:3px solid #c83020;color:#f09080}
-.bb{background:rgba(60,120,220,.1);border-left:3px solid #5090e0;color:#80b0ff}
-.sy{display:inline-flex;align-items:center;background:rgba(26,176,154,.13);border:1px solid rgba(26,176,154,.22);border-radius:14px;padding:3px 9px;font-size:11px;color:#50d0bc;margin:2px}
-.dc{background:#223018;border:1px solid #2d4020;border-radius:7px;padding:9px 12px;margin:5px 0}
-.dc b{display:block;color:#82ca5e;font-size:10px;text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px}
-.dc span{color:#9ab080;font-size:12px}
+/* ── CONTENT ── */
+.content{padding:24px;font-size:14px;line-height:1.75;color:var(--text-muted)}
+.content h3{font-family:var(--font-display);font-size:15px;font-weight:600;color:var(--green-300);margin:16px 0 8px;padding-left:12px;border-left:2px solid var(--green-600)}
+.content h3:first-child{margin-top:0}
+.content ul{padding-left:20px;margin:6px 0 12px}
+.content li{margin-bottom:5px;color:var(--text-muted)}
+.content p{margin-bottom:10px}
+.box{padding:12px 16px;border-radius:var(--radius);margin:10px 0;font-size:13px;line-height:1.6}
+.box-green{background:rgba(58,148,32,.12);border-left:3px solid var(--green-500);color:var(--green-200)}
+.box-amber{background:rgba(232,168,32,.1);border-left:3px solid #e8a820;color:#e8c060}
+.box-red{background:rgba(240,96,64,.12);border-left:3px solid var(--coral-600);color:#f09080}
+.box-blue{background:rgba(60,120,220,.12);border-left:3px solid #5090e0;color:#80b0ff}
+.synergy{display:inline-flex;align-items:center;gap:5px;background:rgba(26,176,154,.15);border:1px solid rgba(26,176,154,.3);border-radius:20px;padding:4px 12px;font-size:12px;color:#50d0bc;margin:3px;cursor:default;font-weight:500}
+.dose-card{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin:8px 0}
+.dose-card strong{display:block;color:var(--green-300);font-size:12px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.dose-card span{color:var(--text-muted);font-size:13.5px}
 
-.abar{background:linear-gradient(135deg,#0d2e08,#162410);border:1px solid #3d5530;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.aico{font-size:22px}
-.atxt{flex:1;min-width:120px}
-.atxt b{display:block;font-size:12.5px;font-weight:600;color:#fff;margin-bottom:1px}
-.atxt small{font-size:10.5px;color:#9ab080}
-.abtn{display:flex;gap:7px;flex-wrap:wrap}
-.b1{background:linear-gradient(135deg,#2d7a18,#3a9420);color:#fff;border:none;padding:8px 14px;border-radius:18px;font-size:11.5px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px}
-.b2{background:#25d366;color:#fff;border:none;padding:8px 12px;border-radius:18px;font-size:11.5px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px}
-.b3{background:transparent;color:#82ca5e;border:1px solid #3d5530;padding:8px 12px;border-radius:18px;font-size:11.5px;cursor:pointer}
-.b1:hover,.b2:hover{opacity:.88}
-.b3:hover{background:rgba(58,148,32,.15)}
+/* ── ACTION BAR ── */
+.action-bar{background:linear-gradient(135deg,var(--green-900),#162410);border:1px solid var(--border2);border-radius:var(--radius-xl);padding:18px 22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;box-shadow:var(--shadow)}
+.action-bar .ico{font-size:28px;flex-shrink:0}
+.action-txt{flex:1;min-width:160px}
+.action-txt strong{display:block;font-size:14px;font-weight:600;color:#fff;margin-bottom:2px}
+.action-txt span{font-size:12px;color:var(--text-muted)}
+.action-btns{display:flex;gap:10px;flex-wrap:wrap}
+.btn-primary{background:linear-gradient(135deg,var(--green-600),var(--green-500));color:#fff;border:none;padding:10px 20px;border-radius:30px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-body);transition:.15s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(58,148,32,.4)}
+.btn-wa{background:#25d366;color:#fff;border:none;padding:10px 18px;border-radius:30px;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--font-body);transition:.15s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.btn-wa:hover{background:#1fba5c;transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--green-300);border:1px solid var(--green-700);padding:10px 18px;border-radius:30px;font-size:13px;font-weight:500;cursor:pointer;font-family:var(--font-body);transition:.15s}
+.btn-outline:hover{background:rgba(58,148,32,.15);border-color:var(--green-500)}
 
-.waf{position:fixed;bottom:16px;right:16px;width:48px;height:48px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;text-decoration:none;z-index:999;box-shadow:0 3px 14px rgba(37,211,102,.5);animation:pw 2s infinite}
-.waf svg{width:24px;height:24px;fill:#fff}
-@keyframes pw{0%,100%{box-shadow:0 3px 14px rgba(37,211,102,.4)}50%{box-shadow:0 3px 24px rgba(37,211,102,.75)}}
-.nores{text-align:center;padding:40px 16px;color:#6a8050;grid-column:1/-1}
-.nores .ne{font-size:36px;margin-bottom:8px}
+/* ── FLOATING WA ── */
+.wa-float{position:fixed;bottom:24px;right:24px;width:56px;height:56px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,.5);cursor:pointer;text-decoration:none;z-index:999;transition:.2s;animation:pulse-wa 2s infinite}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(37,211,102,.7)}
+.wa-float svg{width:28px;height:28px;fill:#fff}
+@keyframes pulse-wa{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,.5)}50%{box-shadow:0 4px 32px rgba(37,211,102,.8)}}
+
+/* ── FOOTER ── */
+.footer{background:var(--surface);border-top:1px solid var(--border);padding:24px;text-align:center;margin-top:20px}
+.footer-logo{font-family:var(--font-display);font-size:18px;color:var(--green-300);margin-bottom:6px}
+.footer-txt{font-size:12px;color:var(--text-dim);line-height:1.7}
+.footer-links{display:flex;gap:16px;justify-content:center;margin-top:10px;flex-wrap:wrap}
+.footer-links a{font-size:12px;color:var(--green-500);text-decoration:none}
+.footer-links a:hover{color:var(--green-300)}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:60px 20px;color:var(--text-dim)}
+.empty .big{font-size:48px;margin-bottom:12px}
+.empty p{font-size:14px}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  .hero{padding:20px 16px 16px}
+  .logo-title{font-size:22px}
+  .hero-stats{gap:14px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(130px,1fr))}
+  .fiche-hero{flex-direction:column;gap:12px}
+  .fiche-em{font-size:44px}
+  .action-bar{flex-direction:column;text-align:center}
+  .search-inner{flex-wrap:wrap}
+  .wa-btn{width:100%;justify-content:center}
+}
 </style>
+</head>
+<body>
 
+<!-- HERO -->
 <div class="hero">
-  <div class="logo">🌿</div>
-  <div><div class="brand">Naturaxe Guide <small>encyclopédie naturelle</small></div></div>
-  <div class="hero-r">
-    <div class="stat"><b id="tn">52</b><s>produits</s></div>
-    <div class="stat"><b>9</b><s>catégories</s></div>
-    <div class="stat"><b>5</b><s>onglets</s></div>
+  <div class="hero-inner">
+    <div class="logo-row">
+      <div class="logo-badge">🌿</div>
+      <div>
+        <div class="logo-title">Naturaxe Guide</div>
+        <div class="logo-sub">Encyclopédie des remèdes naturels</div>
+      </div>
+    </div>
+    <p class="hero-desc">Fiches techniques complètes · Posologie & dosage · Synergies · Contre-indications · Médecine prophétique · Apithérapie · Plantes médicinales</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n" id="totalCount">52</div><div class="stat-l">Produits</div></div>
+      <div class="stat"><div class="stat-n">9</div><div class="stat-l">Catégories</div></div>
+      <div class="stat"><div class="stat-n">5</div><div class="stat-l">Onglets / fiche</div></div>
+      <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Naturel</div></div>
+    </div>
   </div>
 </div>
 
-<div class="bar">
-  <div class="srow">
-    <div class="sw">
-      <span class="si">🔍</span>
-      <input id="srch" type="text" placeholder="miel, nigelle, stress, arthrite, diabète, cheveux...">
+<!-- SEARCH BAR -->
+<div class="search-zone">
+  <div class="search-inner">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="srch" placeholder="Rechercher un produit, une plante, un remède, une maladie...">
     </div>
-    <a class="wabtn" href="https://wa.me/635107153" target="_blank">
-      <svg viewBox="0 0 24 24" fill="currentColor" style="width:14px;height:14px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      WhatsApp
+    <a class="wa-btn" href="https://wa.me/635107153" target="_blank">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Conseil WhatsApp
     </a>
   </div>
-  <div class="cats" id="cats"></div>
 </div>
 
+<!-- CATEGORIES -->
+<div class="cats-zone">
+  <div class="cats-inner" id="cats"></div>
+</div>
+
+<!-- MAIN -->
 <div class="main">
-  <div class="info">Résultats : <b id="cn">52 produits</b></div>
+  <div class="count-row">
+    <div class="count-label">Produits affichés</div>
+    <div class="count-n" id="countDisp">52 produits</div>
+  </div>
   <div class="grid" id="grid"></div>
-  <div id="fz"></div>
+  <div id="ficheZone"></div>
 </div>
 
-<a class="waf" href="https://wa.me/635107153" target="_blank">
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-logo">🌿 Naturaxe Guide</div>
+  <div class="footer-txt">La vraie valeur du naturel au quotidien<br>Tous les produits sont disponibles sur <strong>naturaxe.fr</strong></div>
+  <div class="footer-links">
+    <a href="https://naturaxe.fr" target="_blank">naturaxe.fr</a>
+    <a href="https://wa.me/635107153" target="_blank">WhatsApp</a>
+    <a href="https://naturaxe.fr/shop-categorie/produits-de-la-ruche/" target="_blank">Apithérapie</a>
+    <a href="https://naturaxe.fr/shop-categorie/huile-essentielle/" target="_blank">Huiles essentielles</a>
+  </div>
+</div>
+
+<!-- FLOATING WA -->
+<a class="wa-float" href="https://wa.me/635107153" target="_blank" title="Nous contacter sur WhatsApp">
   <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
 <script>
 const CATS=[
-  {l:'Tous',t:'all',e:'🌍'},{l:'Apithérapie',t:'miel',e:'🐝'},
-  {l:'Prophétique',t:'proph',e:'🌙'},{l:'Huiles ess.',t:'huile',e:'💧'},
-  {l:'Plantes',t:'plante',e:'🌱'},{l:'Algues & Super',t:'algue',e:'💚'},
-  {l:'Compléments',t:'comp',e:'💊'},{l:'Grand-mère',t:'gm',e:'🏡'},
-  {l:'Hygiène',t:'hygiene',e:'🧴'}
+  {label:'Tous',tag:'all',em:'🌍'},
+  {label:'Apithérapie',tag:'miel',em:'🐝'},
+  {label:'Médecine prophétique',tag:'proph',em:'🌙'},
+  {label:'Huiles essentielles',tag:'huile',em:'💧'},
+  {label:'Plantes médicinales',tag:'plante',em:'🌱'},
+  {label:'Algues & Superaliments',tag:'algue',em:'💚'},
+  {label:'Compléments alimentaires',tag:'comp',em:'💊'},
+  {label:'Remèdes de grand-mère',tag:'gm',em:'🏡'},
+  {label:'Hygiène naturelle',tag:'hygiene',em:'🧴'},
 ];
 
-function dc(title,txt){return`<div class="dc"><b>${title}</b><span>${txt}</span></div>`}
-function bx(txt,c){return`<div class="bx b${c}">${txt}</div>`}
-function h3(t){return`<h3>${t}</h3>`}
-function sy(arr){return arr.map(x=>`<span class="sy">${x}</span>`).join('')}
-function ul(items){return'<ul>'+items.map(x=>`<li>${x}</li>`).join('')+'</ul>'}
+const P=`<p>`,UL=`<ul>`,LI=`<li>`,H3=(t)=>`<h3>${t}</h3>`,
+  BOX=(t,cls)=>`<div class="box box-${cls}">${t}</div>`,
+  DC=(title,txt)=>`<div class="dose-card"><strong>${title}</strong><span>${txt}</span></div>`,
+  SYN=(items)=>items.map(i=>`<span class="synergy">${i}</span>`).join('');
 
 const PRODS=[
-{id:'miel-sidr',n:'Miel de Sidr',c:'Apithérapie',e:'🍯',b:'ga',t:'miel',url:'https://naturaxe.fr/shop-categorie/produits-de-la-ruche/',
- k:'miel sidr ruche infection immunite ulcere cicatrice angine digestif',
- d:h3('Le roi des miels')+'<p>Récolté dans les forêts de jujubiers du Yémen. Mentionné dans la médecine prophétique. Riche en enzymes actives, flavonoïdes et acides aminés.</p>'+ul(['Enzymes actives (diastase, invertase, glucose oxydase)','Acides aminés essentiels, flavonoïdes','Vitamines B, C, antioxydants majeurs'])+bx('✅ Reconnu par l\'OMS comme aliment fonctionnel thérapeutique','g'),
- p:dc('Usage général — immunité','1-2 c.c. le matin à jeun, 20 min avant repas')+dc('Usage thérapeutique','1 c.s. 3×/jour, cure 21 jours minimum')+dc('Enfant dès 2 ans','½ c.c. le matin. INTERDIT avant 12 mois.')+bx('⚠️ Ne pas chauffer au-dessus de 40°C — les enzymes sont détruites','a'),
- m:h3('Infections & Immunité')+ul(['Grippe, rhume, angines, otites, sinusites','Infections bactériennes (H. pylori, SARM)'])+h3('Digestif')+ul(['Ulcère gastrique, gastrite, reflux gastrique','Constipation, ballonnements'])+h3('Cicatrisation')+ul(['Plaies, brûlures, eczéma, acné, psoriasis'])+bx('🔬 Études 2019-2023 : antibactérien prouvé contre SARM et E. coli','b'),
- s:'<p>'+sy(['🖤 Nigelle','💧 Zamzam','🟡 Curcuma','🧄 Ail noir','🫚 Gingembre'])+'</p><p>Protocole prophétique : 1 c.c. miel + 7 graines nigelle à jeun chaque matin.</p>'+bx('💡 Le miel de Sidr potentialise l\'absorption de tous les actifs naturels','g'),
- ci:bx('🚫 Diabétiques : index glycémique élevé — consulter un médecin','r')+bx('🚫 Nourrissons < 12 mois : risque botulisme infantile — INTERDIT','r')+ul(['Allergie au pollen ou produits de la ruche','Anticoagulants : effet fluidifiant léger'])},
+// ═══════════ APITHÉRAPIE ═══════════
+{id:'miel-sidr',name:'Miel de Sidr',cat:'Apithérapie',em:'🍯',badge:'b-amber',tag:'miel',url:'https://naturaxe.fr/shop-categorie/produits-de-la-ruche/',
+desc:`${H3('Le roi des miels')}<p>Le miel de Sidr est récolté dans les forêts de jujubiers (Ziziphus spina-christi) du Yémen. L'un des miels les plus rares et thérapeutiques au monde, mentionné dans la médecine prophétique.</p>${H3('Composition')}<ul><li>Sucres naturels (fructose, glucose, saccharose)</li><li>Enzymes actives (diastase, invertase, glucose oxydase)</li><li>Acides aminés essentiels, flavonoïdes</li><li>Vitamines B, C, antioxydants</li></ul>${BOX('✅ Reconnu par l\'OMS comme aliment fonctionnel thérapeutique exceptionnel','green')}`,
+posologie:`${DC('Usage général — immunité, énergie','1 à 2 c.c. le matin à jeun, 20 min avant repas')}${DC('Usage thérapeutique — infection, inflammation','1 c.s. 3× par jour, cure de 21 jours minimum')}${DC('Enfant (dès 2 ans)','½ c.c. le matin. Formellement interdit avant 12 mois.')}${BOX('⚠️ Ne jamais chauffer au-dessus de 40°C — les enzymes actives sont détruites','amber')}`,
+maladies:`${H3('Infections & Immunité')}<ul><li>Grippe, rhume, angines, otites</li><li>Infections bactériennes (H. pylori)</li></ul>${H3('Digestif')}<ul><li>Ulcère gastrique, gastrite, reflux</li><li>Constipation, ballonnements</li></ul>${H3('Cicatrisation')}<ul><li>Plaies, brûlures, eczéma, acné</li></ul>${BOX('🔬 Études 2019-2023 : activité antibactérienne prouvée contre SARM et E. coli','blue')}`,
+synergies:`${H3('Associations puissantes')}<p>${SYN(['🖤 Nigelle','💧 Zamzam','🟡 Curcuma','🧄 Ail noir','🫚 Gingembre'])}</p><p>Combo prophétique : 1 c.c. miel + 7 graines de nigelle à jeun chaque matin.</p>${BOX('💡 Le miel de Sidr potentialise l\'absorption de tous les actifs naturels','green')}`,
+contre:`${BOX('🚫 Diabétiques : index glycémique élevé — consulter un médecin','red')}${BOX('🚫 Nourrissons < 12 mois : risque de botulisme infantile — INTERDIT','red')}<ul><li>Allergie au pollen ou produits de la ruche</li><li>Anticoagulants : effet fluidifiant léger</li><li>Obésité : consommer avec modération</li></ul>`},
 
-{id:'propolis',n:'Propolis',c:'Apithérapie',e:'🐝',b:'ga',t:'miel',url:'https://naturaxe.fr/shop-categorie/produits-de-la-ruche/',
- k:'propolis antibiotique angine sinusite herpes verrues acne mycose bouton fievre',
- d:h3('L\'antibiotique de la ruche')+'<p>Substance résineuse produite par les abeilles. Antibiotique naturel à large spectre actif contre bactéries, virus et champignons. 300+ composés actifs identifiés.</p>'+ul(['Flavonoïdes (pinocembrine, chrysine)','Acides phénoliques, résines (50%), cires (30%)','Vitamines B, E, enzymes actives']),
- p:dc('Teinture mère','20-30 gouttes dans eau, 3×/jour avant repas')+dc('Gélules 400mg','2 gélules matin & soir, cure 3 semaines')+dc('Spray buccal','2-3 pulvérisations dans gorge, jusqu\'à 5×/jour')+bx('⚠️ Choisir extrait aqueux pour enfants et personnes évitant l\'alcool','a'),
- m:h3('ORL & Respiratoire')+ul(['Angines, otites, sinusites, bronchites','Grippe, rhumes, prévention hivernale'])+h3('Bucco-dentaire')+ul(['Aphtes, gingivites, parodontites, caries'])+h3('Peau')+ul(['Herpès, verrues, acné, mycoses cutanées']),
- s:'<p>'+sy(['🍯 Miel de Sidr','🌲 Tea Tree','🌸 Thym'])+'</p><p>Sirop anti-angine maison : miel + propolis + citron tiède.</p>',
- ci:bx('🚫 Allergie aux produits de la ruche ou peuplier : contre-indication absolue','r')+ul(['Anticoagulants : légère interaction','Femmes enceintes : avis médical conseillé'])},
+{id:'propolis',name:'Propolis',cat:'Apithérapie',em:'🐝',badge:'b-amber',tag:'miel',url:'https://naturaxe.fr/shop-categorie/produits-de-la-ruche/',
+desc:`${H3('L\'antibiotique de la ruche')}<p>Substance résineuse produite par les abeilles à partir de bourgeons végétaux. Antibiotique naturel à large spectre actif contre bactéries, virus et champignons. 300+ composés actifs identifiés.</p>${H3('Composition')}<ul><li>Flavonoïdes (pinocembrine, chrysine, galangine)</li><li>Acides phénoliques, résines (50%), cires (30%)</li><li>Vitamines B, E, enzymes</li></ul>`,
+posologie:`${DC('Teinture mère alcoolique','20-30 gouttes dans verre d\'eau, 3×/jour avant repas')}${DC('Gélules 400mg','2 gélules matin & soir, 3 semaines')}${DC('Spray buccal','2-3 pulvérisations dans la gorge, jusqu\'à 5×/jour'}${BOX('⚠️ Choisir extrait aqueux pour enfants et personnes évitant l\'alcool','amber')}`,
+maladies:`${H3('ORL & Respiratoire')}<ul><li>Angines, otites, sinusites, bronchites</li><li>Grippe, rhumes, prévention hivernale</li></ul>${H3('Bucco-dentaire')}<ul><li>Aphtes, gingivites, parodontites, caries</li></ul>${H3('Peau')}<ul><li>Herpès, verrues, acné, mycoses</li></ul>`,
+synergies:`<p>${SYN(['🍯 Miel de Sidr','🌲 Tea Tree','🌸 Thym'])}</p><p>Sirop maison anti-angine : miel + propolis + jus de citron tiède.</p>`,
+contre:`${BOX('🚫 Allergie aux produits de la ruche / peuplier : contre-indication absolue','red')}<ul><li>Anticoagulants : légère interaction</li><li>Femmes enceintes : avis médical conseillé</li></ul>`},
 
-{id:'gelee',n:'Gelée royale',c:'Apithérapie',e:'👑',b:'ga',t:'miel',url:'https://naturaxe.fr/shop-categorie/produits-de-la-ruche/',
- k:'gelee royale fatigue energie libido cheveux menopause andropause stress sommeil vitalite',
- d:h3('L\'aliment des reines')+'<p>Sécrétée par les abeilles ouvrières. La reine vit 40× plus longtemps grâce à elle. Le 10-HDA est un composé unique au monde.</p>'+ul(['10-HDA (acide 10-hydroxy-décénoïque) — composé exclusif','Vitamines B1 B2 B3 B5 B6 B8 B9, acétylcholine','Royalactines (facteur de croissance cellulaire)']),
- p:dc('Gelée fraîche (la plus active)','300-500 mg sous la langue à jeun, matin, cure 4-6 semaines')+dc('Gélules lyophilisées','200-400 mg/jour')+bx('💡 Cure idéale : automne et printemps pour les changements de saison','g'),
- m:ul(['Fatigue chronique, convalescence, surmenage','Baisse de libido, andropause, ménopause','Stress, anxiété, troubles du sommeil','Chute de cheveux, ongles cassants, teint terne']),
- s:'<p>'+sy(['🌻 Pollen','🍯 Miel','💚 Spiruline','🌰 Ashwagandha'])+'</p>',
- ci:bx('🚫 Allergie aux produits de la ruche : risque choc anaphylactique','r')+bx('🚫 Cancers hormonaux-dépendants (sein, prostate) : stimulation possible','r')+ul(['Asthme : commencer par micro-doses','Enfants < 3 ans : déconseillé'])},
+{id:'gelee-royale',name:'Gelée royale',cat:'Apithérapie',em:'👑',badge:'b-amber',tag:'miel',url:'https://naturaxe.fr/shop-categorie/produits-de-la-ruche/',
+desc:`${H3('L\'aliment des reines')}<p>Sécrétée par les abeilles ouvrières, la gelée royale est l'aliment exclusif de la reine. Elle lui confère une longévité 40× supérieure et une fertilité exceptionnelle. Contient le 10-HDA, composé unique au monde.</p>`,
+posologie:`${DC('Gelée fraîche (la plus active)','300-500 mg sous la langue à jeun, matin, cure 4-6 semaines')}${DC('Gélules lyophilisées','200-400 mg/jour (lyophilisation préserve tous les actifs)')}${BOX('💡 Idéal en cure automne & printemps pour les changements de saison','green')}`,
+maladies:`<ul><li>Fatigue chronique, convalescence, surmenage</li><li>Baisse de libido, andropause, ménopause</li><li>Stress, anxiété, troubles du sommeil</li><li>Chute de cheveux, ongles cassants, teint terne</li></ul>`,
+synergies:`<p>${SYN(['🌻 Pollen','🍯 Miel','💚 Spiruline','🫚 Gingembre'])}</p>`,
+contre:`${BOX('🚫 Allergie aux produits de la ruche : risque choc anaphylactique','red')}${BOX('🚫 Cancers hormonaux-dépendants (sein, prostate)','red')}<ul><li>Asthme : commencer par micro-doses</li><li>Enfants < 3 ans : déconseillé</li></ul>`},
 
-{id:'pollen',n:'Pollen de fleurs',c:'Apithérapie',e:'🌻',b:'ga',t:'miel',url:'https://naturaxe.fr/shop-categorie/produits-de-la-ruche/',
- k:'pollen fatigue anemie constipation prostate croissance enfant carence vitamines',
- d:h3('Le multivitamines de la nature')+'<p>L\'OMS le reconnaît comme l\'un des aliments les plus nutritifs. Contient tous les acides aminés essentiels, vitamines et enzymes.</p>'+ul(['Protéines : 25-35% (tous acides aminés)','Vitamines A B C D E K, caroténoïdes, rutine','Enzymes digestives naturelles actives']),
- p:dc('Adultes','1-2 c.s. chaque matin, mâché lentement ou dans yaourt/smoothie')+dc('Enfants > 3 ans','1 c.c./jour. Commencer par petites quantités.')+bx('💡 Conserver au congélateur pour préserver les actifs enzymatiques','g'),
- m:ul(['Fatigue, anémie, carences multiples','Constipation chronique, troubles digestifs','Adénome bénin de la prostate','Dépression saisonnière, croissance de l\'enfant']),
- s:'<p>'+sy(['👑 Gelée royale','🍯 Miel','💚 Spiruline'])+'</p>',
- ci:bx('🚫 Allergie pollinique sévère : commencer par 1 grain et surveiller 30 min','r')+ul(['Femmes enceintes : avis médical conseillé'])},
+{id:'pollen',name:'Pollen de fleurs',cat:'Apithérapie',em:'🌻',badge:'b-amber',tag:'miel',url:'https://naturaxe.fr/shop-categorie/produits-de-la-ruche/',
+desc:`${H3('Le multivitamines de la nature')}<p>L'OMS le reconnaît comme l'un des aliments les plus nutritifs. Contient tous les acides aminés essentiels, vitamines et enzymes. La source de protéines végétales la plus complète.</p><ul><li>Protéines : 25-35% (tous acides aminés)</li><li>Vitamines A, B, C, D, E, K, caroténoïdes</li><li>Enzymes digestives naturelles, rutine</li></ul>`,
+posologie:`${DC('Adultes','1-2 c.s. chaque matin, mâché lentement ou mélangé au yaourt')}${DC('Enfants > 3 ans','1 c.c./jour. Commencer par petites quantités.')}<p>Conserver au congélateur pour préserver les actifs.</p>`,
+maladies:`<ul><li>Fatigue, anémie, carences multiples</li><li>Constipation chronique, troubles digestifs</li><li>Adénome bénin de la prostate</li><li>Dépression saisonnière, croissance enfant</li></ul>`,
+synergies:`<p>${SYN(['👑 Gelée royale','🍯 Miel','💚 Spiruline'])}</p><p>Cure royale : pollen + gelée royale + miel chaque matin = énergie optimale.</p>`,
+contre:`${BOX('🚫 Allergie pollinique sévère : commencer par 1 grain et surveiller','red')}<ul><li>Femmes enceintes : avis médical</li></ul>`},
 
-{id:'cire',n:'Cire d\'abeille',c:'Apithérapie',e:'🕯️',b:'ga',t:'miel',url:'https://naturaxe.fr/shop-categorie/produits-de-la-ruche/',
- k:'cire abeille peau seche eczema levres gerçures baume cosmetique',
- d:h3('La cire thérapeutique')+'<p>Utilisée depuis l\'Antiquité en cosmétique et médecine. Émollient naturel exceptionnel, barrière hydratante cutanée.</p>'+ul(['Esters de cires naturels, alcools gras','Flavonoïdes, propolis naturelle incluse','Vitamine A naturelle']),
- p:dc('Soin cutané','Appliquer en fine couche sur zones à traiter, 2-3×/jour')+dc('Baume maison','Cire fondue + huile de nigelle + H.E. eucalyptus : masser'),
- m:ul(['Peau sèche, gerçures, crevasses, lèvres gercées','Eczéma, psoriasis, dermatite (usage externe)','Cicatrisation et protection des plaies légères']),
- s:'<p>'+sy(['🖤 Huile de Nigelle','🍃 Eucalyptus H.E.','💜 Lavande H.E.'])+'</p>',
- ci:ul(['Allergie aux produits de la ruche : très rare','Usage interne : non recommandé sans prescription'])},
+{id:'cire',name:'Cire d\'abeille',cat:'Apithérapie',em:'🕯️',badge:'b-amber',tag:'miel',url:'https://naturaxe.fr/shop-categorie/produits-de-la-ruche/',
+desc:`${H3('La cire thérapeutique')}<p>La cire d'abeille pure est utilisée depuis l'Antiquité en cosmétique et médecine. Riche en esters de cires, alcools gras et hydrocarbones, elle est un émollient naturel exceptionnel.</p><ul><li>Esters de cires naturels</li><li>Alcools gras (tétracosanol)</li><li>Flavonoïdes, propolis naturelle incluse</li><li>Vitamines A naturelle</li></ul>`,
+posologie:`${DC('Soin cutané (baume lèvres, peau sèche)','Appliquer en fine couche sur les zones à traiter, 2-3×/jour')}${DC('Baume musculaire maison','Cire + huile de nigelle + H.E. eucalyptus : masser les zones douloureuses')}`,
+maladies:`<ul><li>Peau sèche, gerçures, crevasses</li><li>Eczéma, psoriasis, dermatite (usage externe)</li><li>Protection des muqueuses buccales</li><li>Cicatrisation et protection des plaies légères</li></ul>`,
+synergies:`<p>${SYN(['🖤 Huile de nigelle','🍃 Eucalyptus','💜 Lavande'])}</p>`,
+contre:`<ul><li>Allergie aux produits de la ruche : rare mais possible</li><li>Usage interne non recommandé sans prescription</li></ul>`},
 
-{id:'nigelle',n:'Graines de Nigelle',c:'Médecine prophétique',e:'🌿',b:'gg',t:'proph',url:'https://naturaxe.fr/shop-categorie/produits-a-base-de-nigelle/',
- k:'nigelle habbatussauda asthme allergie diabete cholesterol immunite memoire anxiete infection',
- d:h3('La graine bénie')+'<p>Le Prophète ﷺ : "Dans la nigelle se trouve un remède à toutes les maladies sauf la mort". 700+ études scientifiques confirment ses propriétés thérapeutiques.</p>'+ul(['Thymoquinone : anti-inflammatoire, anticancéreux','Oméga-3, oméga-6, vitamines A B C E','Zinc, fer, calcium, magnésium, carvacrol'])+bx('✅ 700+ études scientifiques publiées sur la Nigella sativa','g'),
- p:dc('Entretien (adultes)','1 c.c. de graines 2×/jour (matin + soir) avec eau ou miel')+dc('Thérapeutique','1 c.c. 3×/jour pendant 3 mois minimum')+dc('Enfants > 5 ans','3-5 graines dans du miel 1×/jour')+bx('⚠️ Débuter progressivement pour éviter la détox (maux de tête passagers)','a'),
- m:h3('Immunitaire & Allergies')+ul(['Asthme, rhinite allergique, eczéma atopique','Infections récidivantes, candida albicans'])+h3('Métabolisme')+ul(['Diabète type 2, cholestérol, triglycérides'])+h3('Neurologique')+ul(['Anxiété, dépression légère, troubles de la mémoire']),
- s:'<p>'+sy(['🍯 Miel de Sidr','💧 Zamzam','🟡 Curcuma','💚 Spiruline'])+'</p>',
- ci:bx('🚫 Grossesse 1er trimestre : stimule les contractions utérines','r')+bx('🚫 Anticoagulants (Warfarine) : interaction — avis médical','r')+ul(['Hypotension : surveiller la tension artérielle','Chirurgie prévue : arrêter 2 semaines avant'])},
+// ═══════════ MÉDECINE PROPHÉTIQUE ═══════════
+{id:'nigelle-graine',name:'Graines de Nigelle',cat:'Médecine prophétique',em:'🌿',badge:'b-green',tag:'proph',url:'https://naturaxe.fr/shop-categorie/produits-a-base-de-nigelle/',
+desc:`${H3('La graine bénie')}<p>Le Prophète ﷺ : <em>"Dans la nigelle se trouve un remède à toutes les maladies sauf la mort"</em>. Plus de 700 études scientifiques confirment ses propriétés. Cultivée depuis 3000 ans.</p><ul><li>Thymoquinone : anti-inflammatoire, anticancéreux</li><li>Oméga-3, oméga-6, vitamines A, B, C, E</li><li>Zinc, fer, calcium, magnésium, carvacrol</li></ul>${BOX('✅ 700+ études scientifiques publiées sur la Nigella sativa','green')}`,
+posologie:`${DC('Entretien (adultes)','1 c.c. de graines 2×/jour (matin + soir) avec eau ou miel')}${DC('Thérapeutique','1 c.c. 3×/jour pendant 3 mois minimum')}${DC('Enfants > 5 ans','3-5 graines dans du miel 1×/jour')}${BOX('⚠️ Débuter progressivement pour éviter la détox (maux de tête, fatigue)','amber')}`,
+maladies:`${H3('Immunitaire & Allergies')}<ul><li>Asthme, rhinite allergique, eczéma atopique</li><li>Infections récidivantes, candida</li></ul>${H3('Métabolisme')}<ul><li>Diabète type 2, cholestérol, triglycérides</li></ul>${H3('Neurologique')}<ul><li>Anxiété, dépression légère, mémoire</li></ul>`,
+synergies:`<p>${SYN(['🍯 Miel de Sidr','💧 Zamzam','🟡 Curcuma','💚 Spiruline','🐫 Lait de chamelle'])}</p>`,
+contre:`${BOX('🚫 Grossesse 1er trimestre : stimule les contractions','red')}${BOX('🚫 Anticoagulants (Warfarine) : interaction — avis médical','red')}<ul><li>Hypotension : surveiller la tension</li><li>Chirurgie prévue : arrêter 2 semaines avant</li></ul>`},
 
-{id:'huile-nig',n:'Huile de Nigelle',c:'Médecine prophétique',e:'🖤',b:'gg',t:'proph',url:'https://naturaxe.fr/shop-categorie/produits-a-base-de-nigelle/',
- k:'huile nigelle cheveux alopecie eczema psoriasis acne articulation douleur',
- d:h3('L\'or noir prophétique')+'<p>Pression à froid des graines de Nigella sativa. Plus concentrée en thymoquinone que les graines. Idéale pour usages thérapeutiques intenses et soins capillaires.</p>'+ul(['Thymoquinone : 2× plus concentrée que dans les graines','Oméga-3, oméga-6, acides gras essentiels','Usage interne ET externe possible']),
- p:dc('Voie interne','1 c.c. (5ml) 2×/jour à jeun. Débuter par ½ c.c.')+dc('Soins cheveux','Masser cuir chevelu, laisser 30 min, shampouiner')+dc('Soins peau','Quelques gouttes pures ou diluées dans huile de coco'),
- m:ul(['Chute de cheveux, alopécie, pellicules chroniques','Eczéma, psoriasis, dermatite atopique','Acné, imperfections cutanées','Douleurs articulaires (massage local)','Toutes indications des graines de nigelle']),
- s:'<p>'+sy(['🍯 Miel de Sidr','🟡 Curcuma','🐫 Lait de chamelle','🍃 Poudre Sidr'])+'</p>',
- ci:bx('🚫 Grossesse 1er trimestre : déconseillé','r')+ul(['Anticoagulants : interaction possible','Chirurgie prévue : arrêter 2 semaines avant'])},
+{id:'huile-nigelle',name:'Huile de Nigelle',cat:'Médecine prophétique',em:'🖤',badge:'b-green',tag:'proph',url:'https://naturaxe.fr/shop-categorie/produits-a-base-de-nigelle/',
+desc:`${H3('L\'or noir prophétique')}<p>Obtenue par pression à froid des graines de Nigella sativa. Plus concentrée en thymoquinone que les graines entières. Idéale pour usages thérapeutiques intenses et soins capillaires.</p><ul><li>Thymoquinone : 2× plus concentrée qu'en graine</li><li>Oméga-3, oméga-6, acides gras essentiels</li><li>Usage interne ET externe possible</li></ul>`,
+posologie:`${DC('Voie interne','1 c.c. (5ml) 2×/jour à jeun. Débuter par ½ c.c.')}${DC('Soins cheveux','Masser le cuir chevelu, poser 30 min, shampouiner')}${DC('Soins peau','Quelques gouttes pures ou diluées dans huile de coco')}`,
+maladies:`<ul><li>Chute de cheveux, alopécie, pellicules</li><li>Eczéma, psoriasis, dermatite atopique</li><li>Acné, imperfections cutanées</li><li>Douleurs articulaires (massage local)</li><li>Toutes indications des graines</li></ul>`,
+synergies:`<p>${SYN(['🍯 Miel de Sidr','🟡 Curcuma','🐫 Lait de chamelle','🍃 Poudre Sidr'])}</p>`,
+contre:`${BOX('🚫 Grossesse 1er trimestre : déconseillé','red')}<ul><li>Anticoagulants : interaction possible</li><li>Chirurgie prévue : arrêter 2 semaines avant</li></ul>`},
 
-{id:'zamzam',n:'Eau de Zamzam',c:'Médecine prophétique',e:'💧',b:'gt',t:'proph',url:'https://naturaxe.fr/shop-categorie/eau-de-zamzam/',
- k:'zamzam eau sacree mineraux alcalin acidite reflux os spiritual remineralisation',
- d:h3('L\'eau sacrée de La Mecque')+'<p>Le Prophète ﷺ : "L\'eau de Zamzam est pour ce à quoi elle est bue". Source depuis 4000 ans, pH alcalin naturel (7.9-8).</p>'+ul(['Bicarbonates : 366 mg/L (alcalinisant puissant)','Calcium : 160 mg/L — Magnésium : 54 mg/L','Zéro contamination bactérienne certifiée']),
- p:dc('Usage spirituel (Sunnah)','Boire debout, en 3 gorgées, face à la Qibla, avec niyyah')+dc('Cure minérale','250-500ml/jour à jeun le matin, 3-4 semaines'),
- m:ul(['Acidité gastrique, reflux (alcalinisant naturel)','Reminéralisation osseuse, ostéoporose légère','Fatigue minérale, crampes musculaires','Soutien spirituel et psychologique profond']),
- s:'<p>'+sy(['🌿 Nigelle','🍯 Miel de Sidr','🟤 Dattes Ajwa'])+'</p>',
- ci:ul(['Insuffisance rénale sévère : teneur minérale élevée','Régime hyposodé strict : avis médical'])},
+{id:'zam-zam',name:'Eau de Zamzam',cat:'Médecine prophétique',em:'💧',badge:'b-teal',tag:'proph',url:'https://naturaxe.fr/shop-categorie/eau-de-zamzam/',
+desc:`${H3('L\'eau sacrée de La Mecque')}<p>Le Prophète ﷺ : <em>"L\'eau de Zamzam est pour ce à quoi elle est bue"</em>. Source jaillissant depuis 4000 ans. Composition minérale unique et pH alcalin naturel (7.9-8).</p><ul><li>Bicarbonates : 366 mg/L (alcalinisant puissant)</li><li>Calcium : 160 mg/L, Magnésium : 54 mg/L</li><li>Zéro contamination bactérienne certifiée</li></ul>`,
+posologie:`${DC('Usage spirituel (tradition)','Boire debout, en 3 gorgées, face à la Qibla, avec intention')}${DC('Cure minérale (3-4 semaines)','250-500ml/jour à jeun le matin')}`,
+maladies:`<ul><li>Acidité gastrique, reflux (alcalinisant)</li><li>Reminéralisation osseuse, ostéoporose légère</li><li>Fatigue minérale, crampes musculaires</li><li>Soutien spirituel et psychologique profond</li></ul>`,
+synergies:`<p>${SYN(['🖤 Graines de Nigelle','🍯 Miel de Sidr','🟤 Dattes Ajwa'])}</p>`,
+contre:`<ul><li>Insuffisance rénale sévère : teneur minérale élevée</li><li>Régime hyposodé strict : avis médical</li></ul>`},
 
-{id:'dattes',n:'Dattes Ajwa & Sukari',c:'Médecine prophétique',e:'🟤',b:'ga',t:'proph',url:'https://naturaxe.fr/shop-categorie/dattes/',
- k:'dattes ajwa sukari hypoglycemie energie constipation grossesse ramadan potassium',
- d:h3('Le fruit prophétique')+'<p>Le Prophète ﷺ : "Celui qui mange 7 dattes Ajwa le matin ne sera pas affecté par le poison ce jour-là". Dattes Ajwa (Médine) et Sukari (Al-Qassim).</p>'+ul(['Potassium : 696 mg/100g, Magnésium, Fer, Zinc','Flavonoïdes antioxydants puissants','Fibres solubles et insolubles']),
- p:dc('Protocole prophétique (Ajwa)','7 dattes Ajwa à jeun le matin, mastiquées lentement')+dc('Énergie / sport','3-5 dattes avant ou après l\'effort physique')+dc('Iftar Ramadan','1, 3 ou 7 dattes + eau selon la Sunnah'),
- m:ul(['Hypoglycémie, fatigue rapide, anémie','Constipation, troubles intestinaux','Hypertension artérielle (teneur en potassium)','Grossesse : facilite l\'accouchement (études 2017)']),
- s:'<p>'+sy(['🐫 Lait de chamelle','🍯 Miel','💧 Zamzam'])+'</p>',
- ci:bx('⚠️ Diabétiques : limiter à 2-3 dattes et surveiller la glycémie','a')+ul(['Obésité : très calorique — consommer avec modération'])},
+{id:'dattes-ajwa',name:'Dattes Ajwa & Sukari',cat:'Médecine prophétique',em:'🟤',badge:'b-amber',tag:'proph',url:'https://naturaxe.fr/shop-categorie/dattes/',
+desc:`${H3('Le fruit prophétique')}<p>Le Prophète ﷺ : <em>"Celui qui mange 7 dattes Ajwa le matin ne sera pas affecté par le poison ce jour-là"</em>. Dattes Ajwa (Médine) et Sukari (Al-Qassim) sont les variétés les plus nobles.</p><ul><li>Potassium : 696 mg/100g, Magnésium, Fer, Zinc</li><li>Flavonoïdes antioxydants puissants</li><li>Fibres solubles et insolubles</li></ul>`,
+posologie:`${DC('Protocole prophétique (Ajwa)','7 dattes Ajwa à jeun le matin, mastiquées lentement')}${DC('Énergie / effort physique','3-5 dattes avant ou après le sport')}${DC('Rupture du jeûne (Ramadan)','1, 3 ou 7 dattes + eau (Sunnah)')}`,
+maladies:`<ul><li>Hypoglycémie, fatigue rapide, anémie</li><li>Constipation, troubles intestinaux</li><li>Hypertension artérielle (potassium)</li><li>Grossesse : facilite l'accouchement (études 2017)</li></ul>`,
+synergies:`<p>${SYN(['🐫 Lait de chamelle','🍯 Miel','💧 Zamzam'])}</p>`,
+contre:`${BOX('⚠️ Diabétiques : limiter à 2-3 dattes et surveiller la glycémie','amber')}<ul><li>Obésité : très calorique — modération</li><li>Allergie au fructose (rare)</li></ul>`},
 
-{id:'sidr',n:'Poudre de Sidr',c:'Médecine prophétique',e:'🍃',b:'gg',t:'proph',url:'https://naturaxe.fr',
- k:'sidr lotus cheveux pellicules alopecie shampoing naturel cuir chevelu',
- d:h3('La plante du Prophète')+'<p>Feuilles séchées de jujubier (Ziziphus lotus). Mentionnée dans le Coran. Shampoing naturel exceptionnel par ses saponines moussantes.</p>'+ul(['Saponines naturelles (agent nettoyant moussant)','Flavonoïdes, tanins, antifongiques naturels']),
- p:dc('Shampoing naturel','2-3 c.s. + eau tiède = pâte, masser cuir chevelu, 10 min, rincer')+dc('Masque capillaire','Sidr + eau de rose + nigelle + miel — poser 45 min')+dc('Tisane médicinale','1 c.c. dans eau chaude, 2×/jour'),
- m:ul(['Chute de cheveux, pellicules, alopécie','Eczéma capillaire, cuir chevelu sensible','Ballonnements, acidité gastrique (tisane)']),
- s:'<p>'+sy(['🖤 Huile de Nigelle','🌹 Eau de rose','🍯 Miel'])+'</p>',
- ci:ul(['Allergie Rhamnacées : très rare','Cheveux très fins : peut alourdir — tester d\'abord'])},
+{id:'poudre-sidr',name:'Poudre de Sidr (Lotus)',cat:'Médecine prophétique',em:'🍃',badge:'b-green',tag:'proph',url:'https://naturaxe.fr',
+desc:`${H3('La plante du Prophète')}<p>Feuilles séchées et broyées du jujubier (Ziziphus lotus). Mentionnée dans le Coran pour le lavage rituel. Shampoing naturel exceptionnel par ses saponines naturelles.</p><ul><li>Saponines naturelles (agent nettoyant moussant)</li><li>Flavonoïdes, tanins, protéines, minéraux</li><li>Antifongiques et antibactériens naturels</li></ul>`,
+posologie:`${DC('Shampoing naturel','2-3 c.s. + eau tiède = pâte, masser le cuir chevelu, 10 min, rincer')}${DC('Masque capillaire','Sidr + eau de rose + nigelle + miel — poser 45 min')}${DC('Tisane médicinale','1 c.c. infusée dans eau chaude, 2×/jour')}`,
+maladies:`<ul><li>Chute de cheveux, pellicules, alopécie</li><li>Eczéma capillaire, cuir chevelu sensible</li><li>Ballonnements, acidité (tisane)</li></ul>`,
+synergies:`<p>${SYN(['🖤 Huile de Nigelle','🌹 Eau de rose','🍯 Miel'])}</p>`,
+contre:`<ul><li>Allergie Rhamnacées : très rare</li><li>Cheveux très fins : peut alourdir — tester d'abord</li></ul>`},
 
-{id:'henne',n:'Henné naturel',c:'Médecine prophétique',e:'🖐️',b:'gg',t:'proph',url:'https://naturaxe.fr',
- k:'henne cheveux couleur soin cuir chevelu pellicules ongles naturel',
- d:h3('La plante de beauté prophétique')+'<p>Le Prophète ﷺ utilisait le henné. Lawsonia inermis — soin capillaire et cutané exceptionnel, antifongique naturel.</p>'+ul(['Lawsone : colorant naturel rouge-orangé','Tanins, résines, propriétés antifongiques']),
- p:dc('Masque colorant','Poudre + eau tiède (+ café pour plus foncé), pâte, poser 2-4h')+dc('Soin conditionneur','Henné neutre (Cassia) + eau + miel, 30 min'),
- m:ul(['Cheveux abîmés, secs, cassants, ternes','Démangeaisons cuir chevelu, pellicules','Mycoses capillaires, ongles fragiles']),
- s:'<p>'+sy(['🍃 Poudre de Sidr','🖤 Huile de Nigelle','🌹 Eau de rose'])+'</p>',
- ci:bx('🚫 Henné chimique (PPD) : dangereux — utiliser UNIQUEMENT henné naturel pur','r')+ul(['Test cutané 24h avant application complète','Déficit en G6PD : déconseillé'])},
+{id:'henné',name:'Henné naturel',cat:'Médecine prophétique',em:'🖐️',badge:'b-green',tag:'proph',url:'https://naturaxe.fr',
+desc:`${H3('La plante de beauté prophétique')}<p>Le Prophète ﷺ utilisait le henné pour colorer sa barbe. Le henné naturel pur (Lawsonia inermis) est un soin capillaire et cutané exceptionnel.</p><ul><li>Lawsone : colorant naturel rouge-orangé</li><li>Tanins, résines, vitamines</li><li>Propriétés antifongiques et antibactériennes</li></ul>`,
+posologie:`${DC('Masque capillaire colorant','Poudre + eau tiède (+ café pour foncé) = pâte, poser 2-4h')}${DC('Soin conditionneur (sans coloration)','Henné neutre (Cassia obovata) + eau + miel, 30 min')}`,
+maladies:`<ul><li>Cheveux abîmés, secs, cassants</li><li>Démangeaisons du cuir chevelu</li><li>Pellicules, mycoses capillaires</li><li>Ongles fragiles (bain de poudre)</li></ul>`,
+synergies:`<p>${SYN(['🍃 Poudre de Sidr','🖤 Huile de Nigelle','🌹 Eau de rose'])}</p>`,
+contre:`${BOX('🚫 Henné chimique (PPD) : dangereux — utiliser UNIQUEMENT le henné naturel pur','red')}<ul><li>Allergie au henné : test cutané avant application complète</li><li>Déficit en G6PD : déconseillé</li></ul>`},
 
-{id:'olive',n:'Huile d\'olive Roqya',c:'Médecine prophétique',e:'🫒',b:'gg',t:'proph',url:'https://naturaxe.fr/shop-categorie/parfums-muscs/roqya/huile-dolive/',
- k:'olive roqya spirituel cardiovasculaire cholesterol peau soin coran',
- d:h3('L\'huile bénie du Coran')+'<p>Allah dit : "Huile d\'un arbre béni, l\'olivier". L\'oléocanthal est un anti-inflammatoire naturel comparable à l\'ibuprofène.</p>'+ul(['Oléocanthal : anti-inflammatoire puissant','Acide oléique (oméga-9) : 70-80%','Polyphénols, vitamine E, squalène']),
- p:dc('Usage interne','1-2 c.s. à jeun le matin, cure de 40 jours')+dc('Usage Roqya','Récitation sur l\'huile puis application sur les zones concernées')+dc('Soin cutané','Application pure sur peau sèche ou cuir chevelu'),
- m:ul(['Maladies cardiovasculaires (prévention)','Cholestérol, inflammations chroniques','Peau sèche, psoriasis, eczéma','Soin spirituel (Roqya Charia)']),
- s:'<p>'+sy(['🖤 Huile de Nigelle','🍯 Miel','🌿 Thym'])+'</p>',
- ci:ul(['Obésité : modération (calorique)','Calculs biliaires : avis médical si présence de calculs'])},
+{id:'huile-olive-roqya',name:'Huile d\'olive Roqya',cat:'Médecine prophétique',em:'🫒',badge:'b-green',tag:'proph',url:'https://naturaxe.fr/shop-categorie/parfums-muscs/roqya/huile-dolive/',
+desc:`${H3('L\'huile bénie du Coran')}<p>Allah dit dans le Coran : <em>"Huile d\'un arbre béni, l\'olivier"</em>. L'huile d'olive vierge extra, utilisée pour la Roqya et en thérapeutique, est l'une des huiles les plus étudiées scientifiquement.</p><ul><li>Oléocanthal : anti-inflammatoire comparable à l'ibuprofène</li><li>Acide oléique (oméga-9) : 70-80%</li><li>Polyphénols, vitamine E, squalène</li></ul>`,
+posologie:`${DC('Usage interne (santé générale)','1-2 c.s. à jeun le matin, cure de 40 jours')}${DC('Usage Roqya (soin spirituel)','Récitation sur l\'huile puis application sur les zones concernées')}${DC('Soin cutané','Application pure sur peau sèche, cuir chevelu, massage')}`,
+maladies:`<ul><li>Maladies cardiovasculaires (prévention)</li><li>Cholestérol, inflammations chroniques</li><li>Peau sèche, psoriasis, eczéma</li><li>Soin spirituel (Roqya Charia)</li></ul>`,
+synergies:`<p>${SYN(['🖤 Huile de Nigelle','🍯 Miel','🌿 Thym'])}</p>`,
+contre:`<ul><li>Obésité : modération (très calorique)</li><li>Chirurgie biliaire : en cas de calculs, avis médical</li></ul>`},
 
-{id:'lavande',n:'H.E. Lavande',c:'Huiles essentielles',e:'💜',b:'gt',t:'huile',url:'https://naturaxe.fr/shop-categorie/huile-essentielle/',
- k:'lavande stress anxiete insomnie migraine brulure piqure acne eczema douleur musculaire',
- d:h3('La reine des H.E.')+'<p>Lavandula angustifolia. L\'H.E. la plus polyvalente et sûre. L\'une des rares utilisables pures sur la peau en cas d\'urgence.</p>'+ul(['Linalol (25-45%) : calmant, antibactérien','Acétate de linalyle (25-45%) : antispasmodique'])+bx('✅ Utilisable pure sur la peau en cas d\'urgence (brûlure, piqûre)','g'),
- p:dc('Pure (urgence)','1-2 gouttes pures directement sur la zone')+dc('Massage diluée','3-5 gouttes dans 10ml huile végétale')+dc('Diffusion','5-10 gouttes, 30 min / 2h de pause'),
- m:ul(['Anxiété, stress, crises de panique, insomnie','Maux de tête, migraines tensionnelles','Brûlures légères, piqûres, acné, cicatrices','Douleurs musculaires, rhumatismes']),
- s:'<p>'+sy(['🌲 Tea Tree','🍃 Eucalyptus','🌱 Menthe poivrée'])+'</p>',
- ci:bx('🚫 Voie orale sans prescription aromathérapeute : déconseillé','r')+ul(['Enfants < 3 mois : ne pas diffuser','Femmes enceintes 1er trimestre : avis médical'])},
+// ═══════════ HUILES ESSENTIELLES ═══════════
+{id:'lavande',name:'Huile essentielle Lavande',cat:'Huiles essentielles',em:'💜',badge:'b-teal',tag:'huile',url:'https://naturaxe.fr/shop-categorie/huile-essentielle/',
+desc:`${H3('La reine des H.E.')}<p>Lavandula angustifolia, distillée des sommités fleuries de Provence. L'H.E. la plus polyvalente et la plus sûre. L'une des rares utilisables pures sur la peau.</p><ul><li>Linalol (25-45%) : calmant, antibactérien</li><li>Acétate de linalyle (25-45%) : antispasmodique</li></ul>${BOX('✅ Utilisable pure sur la peau en cas d\'urgence (brûlure, piqûre)','green')}`,
+posologie:`${DC('Pure (urgence : brûlure, piqûre)','1-2 gouttes pures directement sur la zone')}${DC('Massage (diluée)','3-5 gouttes dans 10ml huile végétale')}${DC('Diffusion','5-10 gouttes, 30 min / 2h de pause')}`,
+maladies:`<ul><li>Anxiété, stress, crises de panique, insomnie</li><li>Maux de tête, migraines</li><li>Brûlures légères, piqûres, acné, cicatrices</li><li>Douleurs musculaires, rhumatismes</li></ul>`,
+synergies:`<p>${SYN(['🌲 Tea Tree','🍃 Eucalyptus','🌱 Menthe poivrée'])}</p>`,
+contre:`${BOX('🚫 Voie orale sans prescription d\'aromathérapeute : déconseillé','red')}<ul><li>Enfants < 3 mois : ne pas diffuser</li><li>Femmes enceintes 1er trimestre : avis médical</li></ul>`},
 
-{id:'teatree',n:'H.E. Tea Tree',c:'Huiles essentielles',e:'🌲',b:'gt',t:'huile',url:'https://naturaxe.fr/shop-categorie/huile-essentielle/',
- k:'tea tree acne mycose infection herpes verrues poux antibiotique naturel pied athlete',
- d:h3('L\'antibiotique d\'Australie')+'<p>Melaleuca alternifolia. Actif contre 200+ souches bactériennes dont le SARM résistant aux antibiotiques classiques.</p>'+ul(['Terpinène-4-ol (>30%) : antibactérien majeur','Gamma-terpinène, alpha-terpinéol']),
- p:dc('Acné / infection','1-2 gouttes pures sur le bouton 2×/jour')+dc('Mycose des ongles','2 gouttes pures 2×/jour, cure 3-6 mois')+dc('Diffusion assainissante','5-8 gouttes, 30 min')+bx('🚫 JAMAIS par voie orale — hépatotoxique','r'),
- m:ul(['Acné, folliculite, furoncles','Mycoses cutanées, pieds d\'athlète','Herpès, verrues, poux','Infections ORL (gargarisme dilué à 1%)']),
- s:'<p>'+sy(['💜 Lavande','🐝 Propolis','🍯 Miel'])+'</p>',
- ci:bx('🚫 Ingestion TOXIQUE — appeler le 15 si accident','r')+ul(['Enfants < 6 ans : avis médical uniquement','Chats : toxique — ne pas utiliser en leur présence'])},
+{id:'tea-tree',name:'Huile Tea Tree',cat:'Huiles essentielles',em:'🌲',badge:'b-teal',tag:'huile',url:'https://naturaxe.fr/shop-categorie/huile-essentielle/',
+desc:`${H3('L\'antibiotique naturel d\'Australie')}<p>Melaleuca alternifolia. Antibiotique naturel à large spectre actif contre 200+ souches bactériennes dont le SARM résistant aux antibiotiques.</p><ul><li>Terpinène-4-ol (>30%) : antibactérien majeur</li><li>Gamma-terpinène, alpha-terpinéol</li></ul>`,
+posologie:`${DC('Acné / infection cutanée','1-2 gouttes pures sur le bouton 2×/jour. Ou 5% en huile végétale.')}${DC('Mycose des ongles','2 gouttes pures 2×/jour, cure 3-6 mois')}${DC('Diffusion assainissante','5-8 gouttes, 30 min')}${BOX('🚫 JAMAIS par voie orale — hépatotoxique','red')}`,
+maladies:`<ul><li>Acné, folliculite, furoncles</li><li>Mycoses cutanées, pieds d'athlète</li><li>Herpès, verrues, poux</li><li>Infections ORL (gargarisme dilué)</li></ul>`,
+synergies:`<p>${SYN(['💜 Lavande','🐝 Propolis','🍯 Miel'])}</p>`,
+contre:`${BOX('🚫 Ingestion TOXIQUE — appeler le 15 en cas d\'ingestion accidentelle','red')}<ul><li>Enfants < 6 ans : uniquement sur avis médical</li><li>Chats : toxique — ne pas utiliser en présence de chats</li></ul>`},
 
-{id:'eucal',n:'H.E. Eucalyptus',c:'Huiles essentielles',e:'🍃',b:'gt',t:'huile',url:'https://naturaxe.fr/shop-categorie/huile-essentielle/',
- k:'eucalyptus rhume bronchite sinusite toux expectorant decongestionnant respiratoire',
- d:h3('Le décongestionnant naturel')+'<p>Eucalyptus globulus. Son eucalyptol (1,8-cinéole) est le décongestionnant et expectorant naturel le plus puissant. Principe actif de médicaments de pharmacie.</p>'+ul(['1,8-cinéole / eucalyptol : 60-80%','Alpha-pinène, limonène, alpha-terpinéol']),
- p:dc('Inhalation (rhume, bronchite)','3-4 gouttes dans bol eau chaude, tête couverte, 10 min')+dc('Application thoracique','3 gouttes dans 10ml huile, masser poitrine/dos 2-3×/jour')+dc('Diffusion','5-8 gouttes, 30 min'),
- m:ul(['Rhumes, bronchites, sinusites, otites','Angines, pharyngites saisonnières','Douleurs musculaires (massage dilué)']),
- s:'<p>'+sy(['💜 Lavande','🌱 Menthe poivrée','🌲 Tea Tree'])+'</p>',
- ci:bx('🚫 Enfants < 6 ans : INTERDIT — risque spasme laryngé','r')+ul(['Asthme sévère, épilepsie : prudence','Grossesse et allaitement : éviter'])},
+{id:'eucalyptus',name:'Huile d\'Eucalyptus',cat:'Huiles essentielles',em:'🍃',badge:'b-teal',tag:'huile',url:'https://naturaxe.fr/shop-categorie/huile-essentielle/',
+desc:`${H3('Le décongestionnant naturel')}<p>Eucalyptus globulus. Son eucalyptol (1,8-cinéole) est le décongestionnant et expectorant naturel le plus puissant connu. Principe actif de nombreux médicaments de pharmacie.</p><ul><li>1,8-cinéole / eucalyptol : 60-80%</li><li>Alpha-pinène, limonène, alpha-terpinéol</li></ul>`,
+posologie:`${DC('Inhalation (rhume, bronchite)','3-4 gouttes dans bol eau chaude, tête couverte, 10 min')}${DC('Application thoracique','3 gouttes dans 10ml huile végétale, masser poitrine/dos 2-3×/jour')}${DC('Diffusion','5-8 gouttes, 30 min')}`,
+maladies:`<ul><li>Rhumes, bronchites, sinusites, otites</li><li>Angines, pharyngites saisonnières</li><li>Douleurs musculaires (massage)</li></ul>`,
+synergies:`<p>${SYN(['💜 Lavande','🌱 Menthe poivrée','🌲 Tea Tree'])}</p>`,
+contre:`${BOX('🚫 Enfants < 6 ans : INTERDIT — risque spasme laryngé','red')}<ul><li>Asthme sévère, épilepsie : prudence</li><li>Grossesse et allaitement : éviter</li></ul>`},
 
-{id:'menthe',n:'H.E. Menthe poivrée',c:'Huiles essentielles',e:'🌱',b:'gt',t:'huile',url:'https://naturaxe.fr/shop-categorie/huile-essentielle/',
- k:'menthe migraine nausee digestion concentration colon irritable mal transport',
- d:h3('La fraîcheur thérapeutique')+'<p>Mentha x piperita. Son menthol active les récepteurs du froid. Efficacité anti-migraine comparable à l\'aspirine selon des études cliniques.</p>'+ul(['Menthol : 40-55% (analgésique, rafraîchissant)','Menthone : 15-25% (digestif, stimulant)']),
- p:dc('Migraine / maux de tête','1 goutte pure sur tempes/front. Éviter les yeux. Effet en 5-10 min.')+dc('Nausées','1 goutte sous le nez ou poignets, inhaler')+dc('Digestion / côlon irritable','1 gélule entérique de 0.2ml après repas'),
- m:ul(['Migraines, maux de tête tensionnels','Nausées, mal des transports, vomissements','Syndrome intestin irritable, ballonnements','Fatigue mentale, manque de concentration']),
- s:'<p>'+sy(['💜 Lavande','🍃 Eucalyptus','🫚 Gingembre'])+'</p>',
- ci:bx('🚫 Enfants < 6 ans : INTERDIT au niveau du visage','r')+ul(['Reflux gastrique : aggrave par voie orale','Épilepsie, grossesse 1er trimestre'])},
+{id:'menthe-poivree',name:'Menthe poivrée H.E.',cat:'Huiles essentielles',em:'🌱',badge:'b-teal',tag:'huile',url:'https://naturaxe.fr/shop-categorie/huile-essentielle/',
+desc:`${H3('La fraîcheur thérapeutique')}<p>Mentha x piperita. Son menthol active les récepteurs du froid (TRPM8), créant analgésie et fraîcheur immédiates. Efficacité anti-migraine comparable à l'aspirine selon des études cliniques.</p><ul><li>Menthol : 40-55% (analgésique, rafraîchissant)</li><li>Menthone : 15-25% (digestif, stimulant)</li></ul>`,
+posologie:`${DC('Migraine','1 goutte pure sur tempes/front, éviter les yeux. Effet en 5-10 min.')}${DC('Nausées','1 goutte sous le nez ou poignets, inhaler')}${DC('Digestion (côlon irritable)','1 gélule entérique de 0.2ml menthol après repas')}`,
+maladies:`<ul><li>Migraines, maux de tête tensionnels</li><li>Nausées, vomissements, mal des transports</li><li>Syndrome intestin irritable, ballonnements</li><li>Fatigue mentale, concentration</li></ul>`,
+synergies:`<p>${SYN(['💜 Lavande','🍃 Eucalyptus','🫚 Gingembre'])}</p>`,
+contre:`${BOX('🚫 Enfants < 6 ans : INTERDIT au niveau du visage — risque respiratoire grave','red')}<ul><li>Reflux gastrique : aggrave par voie orale</li><li>Épilepsie, grossesse 1er trimestre</li></ul>`},
 
-{id:'romarin',n:'H.E. Romarin',c:'Huiles essentielles',e:'🌾',b:'gt',t:'huile',url:'https://naturaxe.fr/shop-categorie/huile-essentielle/',
- k:'romarin memoire concentration cheveux foie hypotension musculaire tonique cognitif',
- d:h3('Le tonique du cerveau')+'<p>Rosmarinus officinalis CT cinéole. Stimulant général et cérébral. Inhalation améliore la mémoire de 75% selon des études. Tonique du foie.</p>'+ul(['1,8-cinéole (CT cinéole) : mémorisant','Camphre, bornéol, alpha-pinène']),
- p:dc('Stimulation cérébrale (diffusion)','4-5 gouttes, 20 min avant travail ou examen')+dc('Massage tonifiant','3 gouttes dans 10ml huile, avant effort physique')+dc('Cheveux (anti-chute)','5 gouttes dans shampoing ou massage cuir chevelu dilué'),
- m:ul(['Fatigue intellectuelle, troubles de la mémoire','Hypotension artérielle','Douleurs musculaires, tendinites','Chute de cheveux, alopécie']),
- s:'<p>'+sy(['💜 Lavande','🌱 Menthe poivrée'])+'</p>',
- ci:bx('🚫 Épilepsie : CONTRE-INDIQUÉ','r')+bx('🚫 Grossesse : CONTRE-INDIQUÉ','r')+ul(['Hypertension artérielle : éviter CT camphre'])},
+{id:'he-romarin',name:'Huile H.E. Romarin',cat:'Huiles essentielles',em:'🌾',badge:'b-teal',tag:'huile',url:'https://naturaxe.fr/shop-categorie/huile-essentielle/',
+desc:`${H3('Le tonique du cerveau')}<p>Rosmarinus officinalis CT camphre ou CT cinéole. Stimulant général et cérébral, tonique du foie. Booster cognitif naturel validé par des études.</p><ul><li>Camphre (CT camphre) : stimulant musculaire</li><li>1,8-cinéole (CT cinéole) : décongestionnant, mémorisant</li><li>Alpha-pinène, bornéol</li></ul>`,
+posologie:`${DC('Stimulation cérébrale (diffusion)','4-5 gouttes 20 min avant travail/examen')}${DC('Massage tonifiant musculaire','3 gouttes dans 10ml huile, avant effort physique')}${DC('Chute de cheveux','5 gouttes dans shampoing ou masser cuir chevelu dilué')}`,
+maladies:`<ul><li>Fatigue intellectuelle, troubles mémoire</li><li>Hypotension artérielle</li><li>Douleurs musculaires, tendinites</li><li>Chute de cheveux, alopécie</li><li>Insuffisance hépatique légère</li></ul>`,
+synergies:`<p>${SYN(['💜 Lavande','🌱 Menthe poivrée','🍃 Eucalyptus'])}</p>`,
+contre:`${BOX('🚫 Épilepsie : CONTRE-INDIQUÉ (CT camphre surtout)','red')}${BOX('🚫 Grossesse : CONTRE-INDIQUÉ','red')}<ul><li>Hypertension artérielle : éviter CT camphre</li><li>Enfants < 6 ans</li></ul>`},
 
-{id:'ravintsara',n:'H.E. Ravintsara',c:'Huiles essentielles',e:'🌿',b:'gt',t:'huile',url:'https://naturaxe.fr/shop-categorie/huile-essentielle/',
- k:'ravintsara grippe hiver antiviral herpes bronchite enfant immunite',
- d:h3('L\'antivirale de Madagascar')+'<p>Cinnamomum camphora CT cinéole. L\'H.E. antivirale de référence, très bien tolérée même par les enfants dès 3 mois en diffusion.</p>'+ul(['1,8-cinéole : 50-60% (antivirale, expectorante)','Terpinène-4-ol, alpha-pinène, bêta-pinène'])+bx('✅ Antivirale bien tolérée par les enfants dès 3 mois (diffusion uniquement)','g'),
- p:dc('Prévention hivernale (diffusion)','5-6 gouttes, 30 min matin et soir')+dc('Adulte voie cutanée','3 gouttes dans 10ml huile, masser thorax/dos/voûte plantaire')+dc('Enfant 3 mois-6 ans','Diffusion uniquement, 3 gouttes, 15 min'),
- m:ul(['Grippe, bronchites, rhinopharyngites','Herpès labial (bouton de fièvre)','Fatigue immunitaire, convalescence']),
- s:'<p>'+sy(['🍃 Eucalyptus','💜 Lavande','🌲 Tea Tree'])+'</p>',
- ci:ul(['Femmes enceintes < 3 mois : prudence','Voie orale : uniquement sur prescription médicale'])},
+{id:'he-citron',name:'Huile H.E. Citron',cat:'Huiles essentielles',em:'🍋',badge:'b-teal',tag:'huile',url:'https://naturaxe.fr/shop-categorie/huile-essentielle/',
+desc:`${H3('La purifiante lumineuse')}<p>Citrus limon, obtenue par expression à froid du zeste. Antiseptique puissante, purifiante de l'air, tonifiante du système immunitaire et digestif.</p><ul><li>Limonène : 60-70% (immunostimulant, anticancéreux)</li><li>Bêta-pinène, gamma-terpinène, citral</li></ul>`,
+posologie:`${DC('Diffusion purifiante','5-6 gouttes, assainit l\'air et aide à la concentration')}${DC('Digestion (voie orale)','2 gouttes dans miel ou capsule végétale, 2×/jour')}${DC('Soins ongles/taches peau','Appliquer pur avec coton sur zone ciblée')}`,
+maladies:`<ul><li>Infections ORL, baisses d'immunité</li><li>Digestion difficile, nausées légères</li><li>Taches cutanées, verrues, ongles jaunis</li><li>Stress, manque de concentration</li></ul>`,
+synergies:`<p>${SYN(['🍃 Eucalyptus','💜 Lavande','🌱 Menthe'])}</p>`,
+contre:`${BOX('⚠️ PHOTOSENSIBILISANT : ne pas s\'exposer au soleil dans les 6-12h après application cutanée','amber')}<ul><li>Peau sensible : diluer systématiquement</li></ul>`},
 
-{id:'gingembre',n:'Gingembre',c:'Plantes médicinales',e:'🫚',b:'gg',t:'plante',url:'https://naturaxe.fr',
- k:'gingembre nausee grossesse arthrose articulation regle douleur rhume digestion vomissement',
- d:h3('La racine du bien-être')+'<p>Zingiber officinale, 5000 ans d\'histoire médicale. Gingérols et shogaols : propriétés antiémétiques et anti-inflammatoires remarquables.</p>'+ul(['Gingérols : anti-inflammatoires, antiémétiques','Shogaols : analgésiques, anticancéreux','Vitamines B6, C, magnésium, potassium']),
- p:dc('Tisane fraîche','5 tranches + 500ml eau bouillante, 10 min, + miel + citron')+dc('Gélules','1-2g poudre/jour (= 2-4 gélules 500mg)')+dc('Anti-nausée rapide','250mg 30 min avant départ en voyage'),
- m:ul(['Nausées de grossesse, chimio, mal des transports','Arthrose, douleurs articulaires chroniques','Dysménorrhée (règles douloureuses)','Rhume, grippe, angine (antiviral)']),
- s:'<p>'+sy(['🟡 Curcuma','🍯 Miel','🍋 Citron','🧄 Ail'])+'</p>',
- ci:ul(['Anticoagulants : interaction fluidifiante','Calculs biliaires : éviter fortes doses','Grossesse > 1g/jour : déconseillé'])},
+{id:'he-ravintsara',name:'Huile H.E. Ravintsara',cat:'Huiles essentielles',em:'🌿',badge:'b-teal',tag:'huile',url:'https://naturaxe.fr/shop-categorie/huile-essentielle/',
+desc:`${H3('L\'antivirale de Madagascar')}<p>Cinnamomum camphora CT cinéole. L'huile essentielle antivirale de référence, très bien tolérée. Idéale pour l'hiver et toute la famille (dès 3 mois en diffusion).</p><ul><li>1,8-cinéole : 50-60% (antivirale, expectorante)</li><li>Alpha-pinène, bêta-pinène, terpinène-4-ol</li></ul>${BOX('✅ Une des rares H.E. antivirales bien tolérées par les enfants (dès 3 mois, diffusion)','green')}`,
+posologie:`${DC('Prévention hivernale (diffusion)','5-6 gouttes, 30 min matin et soir')}${DC('Adulte — voie cutanée','3 gouttes dans 10ml huile, masser thorax/dos/voûte plantaire')}${DC('Enfant 3 mois-6 ans','Diffusion uniquement, 3 gouttes, 15 min, fenêtre fermée puis aérer')}`,
+maladies:`<ul><li>Grippe, bronchites, rhinopharyngites</li><li>Herpès (bouton de fièvre)</li><li>Fatigue immunitaire, convalescence</li></ul>`,
+synergies:`<p>${SYN(['🍃 Eucalyptus','💜 Lavande','🌲 Tea Tree'])}</p>`,
+contre:`<ul><li>Femmes enceintes < 3 mois : prudence</li><li>Voie orale : uniquement sur prescription</li></ul>`},
 
-{id:'curcuma',n:'Curcuma & Poivre noir',c:'Plantes médicinales',e:'🟡',b:'ga',t:'plante',url:'https://naturaxe.fr',
- k:'curcuma poivre inflammation arthrite arthrose foie cancer cholesterol alzheimer diabete',
- d:h3('L\'or de l\'Ayurveda')+'<p>5000 ans d\'histoire. Anti-inflammatoire naturel parmi les plus puissants. Avec le poivre noir : biodisponibilité multipliée par 20.</p>'+ul(['Curcumine : anti-inflammatoire, antioxydant, hépatoprotecteur','Pipérine (poivre noir) : absorption ×2000%'])+bx('✅ JAMAIS le curcuma sans poivre noir — il est très mal absorbé seul','g'),
- p:dc('Latte doré (golden milk)','1 c.c. curcuma + ¼ c.c. poivre noir + lait chaud + huile de coco, le soir')+dc('Gélules standardisées à 95%','500mg-1g, 2×/jour aux repas')+dc('Cure intensive','3g/jour + poivre noir, 8 semaines minimum'),
- m:ul(['Arthrite, arthrose, tendinites chroniques','Inflammations intestinales (Crohn, RCH)','Foie (hépatite, stéatose), cholestérol','Prévention cancer et Alzheimer']),
- s:'<p>'+sy(['🌿 Nigelle','🫚 Gingembre','🍯 Miel','🧄 Ail noir'])+'</p>',
- ci:bx('🚫 Calculs biliaires : stimule la vésicule — risque de colique hépatique','r')+ul(['Anticoagulants : interaction fluidifiante','Grossesse : éviter les fortes doses'])},
+// ═══════════ PLANTES MÉDICINALES ═══════════
+{id:'gingembre',name:'Gingembre',cat:'Plantes médicinales',em:'🫚',badge:'b-green',tag:'plante',url:'https://naturaxe.fr',
+desc:`${H3('La racine du bien-être')}<p>Zingiber officinale, utilisé depuis 5000 ans en Chine et Inde. Ses gingérols et shogaols lui confèrent des propriétés anti-nausées, anti-inflammatoires et digestives remarquables.</p><ul><li>Gingérols : anti-inflammatoires, antiémétiques</li><li>Shogaols : analgésiques, anticancéreux</li><li>Vitamines B6, C, magnésium, potassium</li></ul>`,
+posologie:`${DC('Tisane fraîche','5 tranches gingembre + 500ml eau bouillante, 10 min, + miel + citron')}${DC('Gélules','1-2g poudre/jour (= 2-4 gélules 500mg)')}${DC('Anti-nausée rapide','250mg, 30 min avant départ en voyage')}`,
+maladies:`<ul><li>Nausées (grossesse, chimio, mal des transports)</li><li>Arthrose, douleurs articulaires</li><li>Dysménorrhée (règles douloureuses)</li><li>Rhume, grippe, angine</li></ul>`,
+synergies:`<p>${SYN(['🟡 Curcuma','🍯 Miel','🍋 Citron','🧄 Ail'])}</p>`,
+contre:`<ul><li>Anticoagulants : interaction fluidifiante</li><li>Calculs biliaires : éviter fortes doses</li><li>Grossesse > 1g/jour : déconseillé</li></ul>`},
 
-{id:'camomille',n:'Camomille (tisane)',c:'Plantes médicinales',e:'🌼',b:'gg',t:'plante',url:'https://naturaxe.fr/shop-categorie/tisane/',
- k:'camomille anxiete stress insomnie colique bebe gastrite regle sommeil calme',
- d:h3('La douceur médicinale')+'<p>Chamaemelum nobile. L\'apigénine se lie aux récepteurs GABA du cerveau : anxiolytique naturel doux. Idéale pour toute la famille.</p>'+ul(['Apigénine : anxiolytique naturel','Bisabolol, camazulène : anti-inflammatoires','Flavonoïdes, tanins']),
- p:dc('Tisane calmante (adultes)','1 c.s. fleurs + 200ml eau 90°C, 10 min, 2-3 tasses/jour')+dc('Coliques du nourrisson','1 c.c. + 100ml eau, 5 min, 50ml tiède entre biberons'),
- m:ul(['Anxiété, stress, nervosité, insomnie','Coliques du nourrisson (très efficace)','Gastrite, ulcère, spasmes digestifs','Règles douloureuses']),
- s:'<p>'+sy(['💜 Lavande H.E.','🍯 Miel','🫖 Rooibos','🍃 Verveine'])+'</p>',
- ci:ul(['Allergie aux Astéracées (ambroisie) : croisement possible','Anticoagulants : légère interaction'])},
+{id:'curcuma',name:'Curcuma & Poivre noir',cat:'Plantes médicinales',em:'🟡',badge:'b-amber',tag:'plante',url:'https://naturaxe.fr',
+desc:`${H3('L\'or de l\'Ayurveda')}<p>Curcuma longa utilisé depuis 5000 ans. Sa curcumine est un des anti-inflammatoires naturels les plus puissants. Associé au poivre noir : biodisponibilité ×20 (effet pipérine).</p><ul><li>Curcumine : anti-inflammatoire, antioxydant, hépatoprotecteur</li><li>Pipérine (poivre noir) : augmente l'absorption de 2000%</li></ul>${BOX('✅ JAMAIS l\'un sans l\'autre — le curcuma seul est très mal absorbé','green')}`,
+posologie:`${DC('Latte doré (golden milk)','1 c.c. curcuma + ¼ c.c. poivre noir + lait chaud + huile de coco, soir')}${DC('Gélules standardisées 95%','500mg-1g, 2×/jour aux repas')}${DC('Cure anti-inflammatoire intensive','3g/jour + poivre noir, 8 semaines minimum')}`,
+maladies:`<ul><li>Arthrite, arthrose, tendinites chroniques</li><li>Inflammations intestinales (Crohn, RCH)</li><li>Foie (hépatite, stéatose), cholestérol</li><li>Prévention cancer, Alzheimer</li></ul>`,
+synergies:`<p>${SYN(['🌿 Nigelle','🫚 Gingembre','🍯 Miel','🧄 Ail'])}</p>`,
+contre:`${BOX('🚫 Calculs biliaires : stimule la vésicule — risque colique hépatique','red')}<ul><li>Anticoagulants : interaction fluidifiante</li><li>Grossesse : éviter fortes doses</li></ul>`},
 
-{id:'rooibos',n:'Rooibos',c:'Plantes médicinales',e:'🫖',b:'gg',t:'plante',url:'https://naturaxe.fr/shop-categorie/tisane/',
- k:'rooibos allergie eczema diabete antioxydant sans cafeine famille bebe grossesse',
- d:h3('L\'infusion rouge sans limites')+'<p>Aspalathus linearis, Afrique du Sud. Sans caféine, pauvre en tanins. Convient à toute la famille — bébés, femmes enceintes, personnes âgées.</p>'+ul(['Aspalathine : antioxydant unique au rooibos','Quercétine, nothofagin, luteolin','Calcium, manganèse, zinc, magnésium'])+bx('✅ Aucune limite de consommation — convient à TOUS, bébés inclus','g'),
- p:dc('Usage quotidien illimité','1-2 c.c. pour 250ml eau bouillante, infusion 5-8 min'),
- m:ul(['Allergies, eczéma, dermatoses atopiques','Diabète type 2 (aspalathine)','Stress oxydatif, vieillissement prématuré','Coliques, troubles digestifs']),
- s:'<p>'+sy(['🍯 Miel','🌼 Camomille','🍃 Verveine'])+'</p>',
- ci:bx('✅ Aucune contre-indication connue — l\'infusion la plus sûre au monde','g')},
+{id:'camomille',name:'Camomille (tisane)',cat:'Plantes médicinales',em:'🌼',badge:'b-green',tag:'plante',url:'https://naturaxe.fr/shop-categorie/tisane/',
+desc:`${H3('La douceur médicinale')}<p>Chamaemelum nobile ou Matricaria chamomilla. Utilisée depuis l'Antiquité. L'apigénine se lie aux récepteurs GABA du cerveau (anxiolytique naturel doux).</p><ul><li>Apigénine : anxiolytique naturel</li><li>Bisabolol, camazulène : anti-inflammatoires</li><li>Flavonoïdes, tanins</li></ul>`,
+posologie:`${DC('Tisane calmante','1 c.s. fleurs + 200ml eau 90°C, 10 min, 2-3 tasses/jour')}${DC('Coliques nourrisson','1 c.c. + 100ml eau, 5 min, 50ml tiède entre biberons')}`,
+maladies:`<ul><li>Anxiété, stress, nervosité, insomnie</li><li>Coliques du nourrisson</li><li>Gastrite, ulcère, spasmes digestifs</li><li>Règles douloureuses</li></ul>`,
+synergies:`<p>${SYN(['💜 Lavande H.E.','🍯 Miel','🫖 Rooibos','🌱 Verveine'])}</p>`,
+contre:`<ul><li>Allergie aux Astéracées (ambroisie) : croisement possible</li><li>Anticoagulants : légère interaction</li></ul>`},
 
-{id:'thym',n:'Thym (tisane & H.E.)',c:'Plantes médicinales',e:'🌸',b:'gg',t:'plante',url:'https://naturaxe.fr/shop-categorie/tisane/',
- k:'thym toux bronchite angine sinusite antiseptique mycose digestion hiver',
- d:h3('L\'antibiotique des plantes')+'<p>Thymus vulgaris. Thymol et carvacrol sont des antiseptiques naturels reconnus par la médecine officielle. Recommandée par les pharmacopées européennes.</p>'+ul(['Thymol : antiseptique, antifongique','Carvacrol : antibactérien, antiviral','Acides rosmarinique et caféique']),
- p:dc('Tisane (toux, bronchite)','1 c.s. thym séché + 200ml eau bouillante, 10 min couverte, 3×/jour')+dc('Gargarisme angine','Tisane concentrée refroidie, se gargariser 30 sec, cracher'),
- m:ul(['Bronchites, coqueluche, toux chronique','Angines, sinusites, rhumes récidivants','Mycoses buccales, candidoses intestinales','Digestion difficile, ballonnements']),
- s:'<p>'+sy(['🐝 Propolis','🍯 Miel','🍋 Citron','🌱 Menthe'])+'</p>',
- ci:ul(['Allergie aux Lamiacées (basilic, romarin, sauge)','H.E. thym à thymol : éviter femmes enceintes et enfants < 6 ans'])},
+{id:'rooibos',name:'Rooibos',cat:'Plantes médicinales',em:'🫖',badge:'b-green',tag:'plante',url:'https://naturaxe.fr/shop-categorie/tisane/',
+desc:`${H3('L\'infusion rouge d\'Afrique du Sud')}<p>Aspalathus linearis, endémique du Cederberg. Sans caféine, pauvre en tanins. L'infusion idéale pour toute la famille — bébés, femmes enceintes, personnes âgées.</p><ul><li>Aspalathine : antioxydant unique au rooibos</li><li>Quercétine, nothofagin, luteolin</li><li>Calcium, manganèse, zinc, magnésium</li></ul>${BOX('✅ Sans caféine — convient femmes enceintes, bébés, seniors','green')}`,
+posologie:`${DC('Usage quotidien (pas de limite)','1-2 c.c. pour 250ml eau bouillante, infusion 5-8 min, jusqu\'à 6 tasses/jour')}`,
+maladies:`<ul><li>Allergies (inhibe la libération d'histamine)</li><li>Eczéma, dermatoses atopiques</li><li>Diabète type 2 (aspalathine)</li><li>Coliques, troubles digestifs, stress oxydatif</li></ul>`,
+synergies:`<p>${SYN(['🍯 Miel','🌼 Camomille','🌱 Verveine'])}</p>`,
+contre:`${BOX('✅ Aucune contre-indication significative connue — l\'infusion la plus sûre qui existe','green')}`},
 
-{id:'hibiscus',n:'Hibiscus (Karkadé)',c:'Plantes médicinales',e:'🌺',b:'gg',t:'plante',url:'https://naturaxe.fr/shop-categorie/tisane/',
- k:'hibiscus karkade hypertension tension cholesterol infection urinaire vitamine c antioxydant',
- d:h3('La fleur rouge aux super-pouvoirs')+'<p>Hibiscus sabdariffa. Très riche en vitamine C et anthocyanes. Utilisée depuis des siècles pour réguler la tension artérielle.</p>'+ul(['Anthocyanes : puissants antioxydants','Vitamine C : 15mg/100ml','Acide hibiscique, malique, tartrique']),
- p:dc('Tisane froide ou chaude','1-2 c.s. fleurs + 300ml eau bouillante, 10 min')+dc('Protocole hypertension','2 tasses/jour pendant 6 semaines (études cliniques)'),
- m:ul(['Hypertension artérielle légère à modérée','Cholestérol, triglycérides élevés','Infections urinaires légères','Carence en vitamine C, fatigue']),
- s:'<p>'+sy(['🍯 Miel','🍋 Citron','🫚 Gingembre'])+'</p>',
- ci:ul(['Antihypertenseurs : peut potentialiser l\'effet','Grossesse : éviter en forte quantité'])},
+{id:'thym',name:'Thym (tisane & H.E.)',cat:'Plantes médicinales',em:'🌸',badge:'b-green',tag:'plante',url:'https://naturaxe.fr/shop-categorie/tisane/',
+desc:`${H3('L\'antibiotique des plantes')}<p>Thymus vulgaris. Son thymol et carvacrol sont des antiseptiques naturels puissants reconnus par la médecine officielle. La tisane de thym est recommandée par les pharmacopées européennes pour la toux.</p><ul><li>Thymol : antiseptique, antifongique</li><li>Carvacrol : antibactérien, antiviral</li><li>Acides rosmarinique et caféique, flavonoïdes</li></ul>`,
+posologie:`${DC('Tisane (toux, bronchite)','1 c.s. thym séché + 200ml eau bouillante, 10 min couverte, 3×/jour')}${DC('Gargarisme (angine)','Tisane concentrée (2 c.s.) refroidie, se gargariser 30 sec, cracher')}`,
+maladies:`<ul><li>Bronchites, coqueluche, toux chronique</li><li>Angines, sinusites, rhumes</li><li>Mycoses buccales, candidoses</li><li>Digestion difficile, ballonnements</li></ul>`,
+synergies:`<p>${SYN(['🐝 Propolis','🍯 Miel','🍋 Citron','🌱 Menthe'])}</p>`,
+contre:`<ul><li>Allergie aux Lamiacées (basilic, romarin, sauge)</li><li>H.E. de thym à thymol : éviter chez femmes enceintes et enfants < 6 ans</li></ul>`},
 
-{id:'ashwagandha',n:'Ashwagandha',c:'Plantes médicinales',e:'🌰',b:'gg',t:'plante',url:'https://naturaxe.fr/shop-categorie/plantes-medicinales-racines/',
- k:'ashwagandha stress burnout anxiete libido fertilite sport thyroide adaptogene',
- d:h3('L\'adaptogène royal')+'<p>Withania somnifera. Plante adaptogène de référence. Réduit le cortisol de 28% en 8 semaines selon des études cliniques. 200+ études publiées.</p>'+ul(['Withanolides (lactones stéroïdiennes) : actifs principaux','Action prouvée sur le cortisol (hormone du stress)'])+bx('✅ Études 2021 : réduit le cortisol de 28% en 8 semaines','g'),
- p:dc('Gélules standardisées','300-600mg/jour d\'extrait, matin ou soir, cure 8-12 semaines')+dc('Poudre de racine','1-2 c.c. dans lait chaud avec miel et cannelle, le soir'),
- m:ul(['Stress chronique, burn-out, épuisement surrénalien','Anxiété, troubles du sommeil','Baisse de libido, fertilité masculine','Performances sportives, récupération musculaire','Hypothyroïdie légère']),
- s:'<p>'+sy(['💚 Spiruline','👑 Gelée royale','🌻 Pollen','🫚 Gingembre'])+'</p>',
- ci:bx('⚠️ Hyperthyroïdie : stimule la thyroïde — surveiller les hormones','a')+ul(['Femmes enceintes : déconseillé','Maladies auto-immunes actives : avis médical'])},
+{id:'verveine',name:'Verveine citronnée',cat:'Plantes médicinales',em:'🍃',badge:'b-green',tag:'plante',url:'https://naturaxe.fr/shop-categorie/tisane/',
+desc:`${H3('La plante des nerfs')}<p>Aloysia citrodora. Arôme citronné délicat. Antispasmodique digestive et calmante nerveuse. Idéale pour les soirées et les personnes stressées.</p><ul><li>Géranial, néral (citrals) : arôme citronné</li><li>Limonène, caryophyllène</li><li>Flavonoïdes (luteolin, apigenin)</li></ul>`,
+posologie:`${DC('Tisane du soir','1 c.s. feuilles + 200ml eau bouillante, 8 min. 1-2 tasses/jour')}`,
+maladies:`<ul><li>Anxiété, stress, irritabilité</li><li>Insomnie légère, difficultés d'endormissement</li><li>Spasmes digestifs, coliques, aérophagie</li><li>Fièvre légère (diaphorétique)</li></ul>`,
+synergies:`<p>${SYN(['🌼 Camomille','🫖 Rooibos','🍯 Miel'])}</p>`,
+contre:`<ul><li>Personnes sous benzodiazépines : potentialise l'effet sédatif</li><li>Grossesse : avis médical conseillé</li></ul>`},
 
-{id:'moringa',n:'Moringa (Arbre de vie)',c:'Plantes médicinales',e:'🌴',b:'gg',t:'plante',url:'https://naturaxe.fr/shop-categorie/plantes-medicinales-racines/',
- k:'moringa carence anemie diabete cholesterol croissance malnutrition energie calcium',
- d:h3('L\'arbre de vie africain')+'<p>Moringa oleifera. Surnommé "l\'arbre de vie" pour sa densité nutritionnelle. L\'OMS le recommande contre la malnutrition mondiale.</p>'+ul(['Vitamine C : 7× l\'orange — Calcium : 4× le lait','Fer : 3× les épinards — Potassium : 3× la banane','Protéines complètes (9 acides aminés essentiels)']),
- p:dc('Poudre de feuilles','1-2 c.c./jour dans smoothie, yaourt ou jus. Ne pas cuire.')+dc('Gélules','2-3 gélules 400mg, 2×/jour'),
- m:ul(['Malnutrition, carences multiples, anémie','Diabète type 2 (régule la glycémie)','Cholestérol, inflammations chroniques','Fatigue, convalescence, croissance de l\'enfant']),
- s:'<p>'+sy(['💚 Spiruline','🌻 Pollen','👑 Gelée royale'])+'</p>',
- ci:ul(['Anticoagulants : interaction (vitamine K élevée)','Grossesse : éviter extraits de graines et racines'])},
+{id:'hibiscus',name:'Hibiscus (Karkadé)',cat:'Plantes médicinales',em:'🌺',badge:'b-green',tag:'plante',url:'https://naturaxe.fr/shop-categorie/tisane/',
+desc:`${H3('La fleur rouge aux super-pouvoirs')}<p>Hibiscus sabdariffa. Tisane rouge rubis très riche en vitamine C et anthocyanes. Utilisée depuis des siècles en Afrique et au Moyen-Orient.</p><ul><li>Anthocyanes : puissants antioxydants (couleur rouge)</li><li>Vitamine C : 15mg/100ml</li><li>Acide hibiscique, malic, tartrique</li></ul>`,
+posologie:`${DC('Tisane froide ou chaude','1-2 c.s. fleurs + 300ml eau bouillante, 10 min, avec miel ou sans sucre')}${DC('Protocole hypertension','2 tasses/jour pendant 6 semaines (études cliniques)')}`,
+maladies:`<ul><li>Hypertension artérielle légère à modérée</li><li>Cholestérol, triglycérides élevés</li><li>Infections urinaires (légères)</li><li>Fatigue, carence en vitamine C</li></ul>`,
+synergies:`<p>${SYN(['🍯 Miel','🍋 Citron','🫚 Gingembre'])}</p>`,
+contre:`<ul><li>Traitement antihypertenseur : peut potentialiser l'effet</li><li>Diurétiques : potentialisation possible</li><li>Grossesse : éviter en forte quantité</li></ul>`},
 
-{id:'fenugrec',n:'Fenugrec (Helba)',c:'Plantes médicinales',e:'🌰',b:'gg',t:'plante',url:'https://naturaxe.fr/shop-categorie/plantes-medicinales-racines/',
- k:'fenugrec helba allaitement lait maternel diabete testosterone cheveux prise masse',
- d:h3('La plante de la force')+'<p>Trigonella foenum-graecum. Mentionné dans les hadiths. Phytoestrogène naturel majeur et régulateur de la glycémie.</p>'+ul(['Diosgénine : précurseur des hormones sexuelles','4-hydroxyisoleucine : régulateur de l\'insuline','Fibres solubles, fer, zinc, magnésium']),
- p:dc('Graines trempées','1-2 c.c. trempées une nuit, avaler le matin avec l\'eau de trempage')+dc('Poudre','1 c.c. dans yaourt ou smoothie, 2×/jour')+dc('Gélules','500mg-1g, 3×/jour'),
- m:ul(['Allaitement insuffisant (galactagogue puissant)','Diabète type 2 (régule la glycémie)','Prise de masse musculaire, convalescence','Perte de cheveux, fertilité masculine']),
- s:'<p>'+sy(['🐫 Lait de chamelle','🍯 Miel','💚 Spiruline'])+'</p>',
- ci:bx('🚫 Grossesse : stimule les contractions utérines — CONTRE-INDIQUÉ','r')+ul(['Anticoagulants : interaction','Allergie aux légumineuses (soja, cacahuète)'])},
+{id:'ashwagandha',name:'Ashwagandha (Ginseng indien)',cat:'Plantes médicinales',em:'🌰',badge:'b-green',tag:'plante',url:'https://naturaxe.fr/shop-categorie/plantes-medicinales-racines/',
+desc:`${H3('L\'adaptogène royal d\'Ayurveda')}<p>Withania somnifera, le "ginseng indien". Plante adaptogène de référence : aide l'organisme à s'adapter au stress physique et mental. Plus de 200 études cliniques.</p><ul><li>Withanolides (lactones stéroïdiennes) : actifs principaux</li><li>Alcaloïdes, saponines, glycosides</li><li>Action sur le cortisol (hormone du stress)</li></ul>${BOX('✅ Études 2021 : réduit le cortisol de 28% en 8 semaines','green')}`,
+posologie:`${DC('Gélules standardisées','300-600mg/jour d\'extrait, matin ou soir au coucher, cure 8-12 semaines')}${DC('Poudre de racine','1-2 c.c. dans lait chaud (latte) avec miel et cannelle, le soir')}`,
+maladies:`<ul><li>Stress chronique, burn-out, épuisement surrénalien</li><li>Anxiété, troubles du sommeil</li><li>Baisse de libido, fertilité masculine</li><li>Performances sportives, récupération musculaire</li><li>Hypothyroïdie légère (stimule T3/T4)</li></ul>`,
+synergies:`<p>${SYN(['💚 Spiruline','👑 Gelée royale','🌻 Pollen','🫚 Gingembre'])}</p>`,
+contre:`${BOX('⚠️ Hyperthyroïdie : stimule la thyroïde — surveiller les hormones','amber')}<ul><li>Femmes enceintes : déconseillé (abortif à forte dose)</li><li>Maladies auto-immunes actives : avis médical</li></ul>`},
 
-{id:'cannelle',n:'Cannelle de Ceylan',c:'Plantes médicinales',e:'🟫',b:'gg',t:'plante',url:'https://naturaxe.fr',
- k:'cannelle ceylan diabete glycemie candida circulation regle cholesterol',
- d:h3('La cannelle vraie')+'<p>Cinnamomum verum. Moins riche en coumarine hépatotoxique que la cannelle Cassia. Hypoglycémiante naturelle validée cliniquement.</p>'+ul(['Cinnamaldéhyde : actif principal antidiabétique','Acide cinnamique, tanins, mucilages'])+bx('⚠️ Choisir CEYLAN (bâtons fins enroulés) et non Cassia pour usage quotidien','a'),
- p:dc('Régulation glycémique','½ à 1 c.c./jour dans yaourt, café, tisane ou latte doré')+dc('Gélules standardisées','250-500mg extrait aqueux, 2×/jour aux repas'),
- m:ul(['Diabète type 2 (réduit la glycémie de 18-29%)','Candida albicans, infections fongiques','Mauvaise circulation, mains/pieds froids','Règles douloureuses, dysménorrhée']),
- s:'<p>'+sy(['🟡 Curcuma','🫚 Gingembre','🍯 Miel'])+'</p>',
- ci:ul(['Cannelle Cassia à forte dose : hépatotoxique','Anticoagulants : légère interaction','Grossesse : éviter compléments concentrés'])},
+{id:'moringa',name:'Moringa (Arbre de vie)',cat:'Plantes médicinales',em:'🌴',badge:'b-green',tag:'plante',url:'https://naturaxe.fr/shop-categorie/plantes-medicinales-racines/',
+desc:`${H3('L\'arbre de vie africain')}<p>Moringa oleifera. Surnommé "l\'arbre de vie" pour sa densité nutritionnelle exceptionnelle. Cultivé en Afrique et en Asie depuis des millénaires.</p><ul><li>Protéines complètes (9 acides aminés essentiels)</li><li>Vitamine C : 7× l'orange ; Calcium : 4× le lait</li><li>Fer : 3× les épinards ; Potassium : 3× la banane</li><li>Isothiocyanates, quercétine, acide chlorogénique</li></ul>`,
+posologie:`${DC('Poudre de feuilles','1-2 c.c./jour dans smoothie, yaourt ou jus. Ne pas cuire.')}${DC('Gélules','2-3 gélules 400mg, 2×/jour')}`,
+maladies:`<ul><li>Malnutrition, carences multiples, anémie</li><li>Diabète type 2 (régule la glycémie)</li><li>Cholestérol, inflammations chroniques</li><li>Fatigue, convalescence, croissance</li></ul>`,
+synergies:`<p>${SYN(['💚 Spiruline','🌻 Pollen','👑 Gelée royale'])}</p>`,
+contre:`<ul><li>Anticoagulants : interaction (vitamine K élevée)</li><li>Grossesse : éviter les extraits de graines et racines (utérotonique)</li></ul>`},
 
-{id:'chardon',n:'Chardon-Marie',c:'Plantes médicinales',e:'🌷',b:'gg',t:'plante',url:'https://naturaxe.fr/shop-categorie/plantes-medicinales-racines/',
- k:'chardon marie foie hepatite cirrhose steatose cholesterol detox alcool',
- d:h3('Le protecteur du foie')+'<p>Silybum marianum. La silymarine est la seule plante validée cliniquement pour régénérer les cellules hépatiques endommagées.</p>'+ul(['Silymarine (2-3% des graines) : hépatoprotecteur majeur','Silybin, silydianin, silychristin'])+bx('✅ Seule plante prouvée cliniquement pour régénérer les cellules du foie','g'),
- p:dc('Extrait standardisé 70-80% silymarine','300-450mg/jour en 3 prises avant repas, cure 3 mois')+dc('Alcoolisation / médicaments hépatotoxiques','600mg/jour en phase active'),
- m:ul(['Hépatites A, B, C (adjuvant)','Cirrhose (ralentit la progression)','Stéatose hépatique (foie gras non alcoolique)','Protection hépatique lors de chimiothérapie']),
- s:'<p>'+sy(['🟡 Curcuma','🍋 Citron','🧄 Ail noir'])+'</p>',
- ci:ul(['Allergie aux Astéracées : croisement possible','Interactions médicaments métabolisés par cytochrome P450'])},
+// ═══════════ ALGUES & SUPERALIMENTS ═══════════
+{id:'spiruline',name:'Spiruline',cat:'Algues & Superaliments',em:'💚',badge:'b-teal',tag:'algue',url:'https://naturaxe.fr',
+desc:`${H3('La micro-algue des champions')}<p>Arthrospira platensis. L'OMS la reconnaît comme "l\'aliment le plus nutritif au monde". Source de protéines végétales la plus concentrée. Recommandée par la NASA.</p><ul><li>Protéines : 60-70% (tous acides aminés essentiels)</li><li>Phycocyanine : pigment bleu aux propriétés extraordinaires</li><li>Fer biodisponible (3× la viande), vitamine B12</li></ul>${BOX('✅ Recommandée par la NASA pour les astronautes et l\'OMS contre la malnutrition','green')}`,
+posologie:`${DC('Débutants (semaine 1)','1g/jour pour habituer l\'organisme (phase détox possible)')}${DC('Entretien','3g/jour = 1 c.c. poudre ou 6 comprimés 500mg')}${DC('Usage sportif / thérapeutique','5-10g/jour en fractionnant les prises')}`,
+maladies:`<ul><li>Anémie, carences, malnutrition</li><li>Fatigue chronique, épuisement physique/mental</li><li>Allergie saisonnière, rhinite</li><li>Diabète, cholestérol, détox métaux lourds</li></ul>`,
+synergies:`<p>${SYN(['🌿 Nigelle','👑 Gelée royale','🌰 Ashwagandha','🌴 Moringa'])}</p>`,
+contre:`${BOX('🚫 Phénylcétonurie : contient phénylalanine — CONTRE-INDIQUÉ','red')}<ul><li>Maladies auto-immunes actives : stimule l'immunité</li><li>Mauvaise qualité : risque cyanobactéries toxiques — acheter certifié</li></ul>`},
 
-{id:'echinacea',n:'Échinacée',c:'Plantes médicinales',e:'🌷',b:'gg',t:'plante',url:'https://naturaxe.fr/shop-categorie/plantes-medicinales-racines/',
- k:'echinacea immunite infection rhume grippe hiver prevention defensse',
- d:h3('L\'immunostimulant naturel')+'<p>Echinacea purpurea. Plante d\'Amérique du Nord utilisée par les Amérindiens. L\'immunostimulant naturel le plus vendu au monde.</p>'+ul(['Alkylamides : immunomodulateurs actifs','Polysaccharides, glycoprotéines, échinacosides']),
- p:dc('Prévention hivernale','200-400mg extrait, 1×/jour, cure 3 semaines / 1 semaine de pause')+dc('Infection active','400mg, 3×/jour pendant 7-10 jours maximum'),
- m:ul(['Infections ORL récidivantes, rhumes à répétition','Primo-infection grippale','Immunodépression saisonnière hivernale']),
- s:'<p>'+sy(['🐝 Propolis','🍯 Miel','🌿 Ravintsara H.E.'])+'</p>',
- ci:bx('🚫 Maladies auto-immunes actives : stimule l\'immunité — déconseillé','r')+ul(['Immunosuppresseurs (greffe) : interaction majeure'])},
+{id:'chlorella',name:'Chlorella',cat:'Algues & Superaliments',em:'🟢',badge:'b-teal',tag:'algue',url:'https://naturaxe.fr',
+desc:`${H3('La reine de la détox')}<p>Chlorella vulgaris. Micro-algue verte d'eau douce. Championne de la détoxification des métaux lourds grâce à sa paroi cellulaire unique qui capte et élimine les toxines.</p><ul><li>Chlorophylle : 2-3% (la plus haute concentration connue)</li><li>Chlorella Growth Factor (CGF) : facteur de croissance unique</li><li>Vitamine B12 (source végétale rare), zinc, fer</li></ul>`,
+posologie:`${DC('Détox métaux lourds','3-5g/jour, cure de 3 mois minimum. Associer à la coriandre fraîche.')}${DC('Entretien général','2-3g/jour sous forme de comprimés ou poudre')}`,
+maladies:`<ul><li>Intoxication aux métaux lourds (mercure, plomb)</li><li>Fibromyalgie, douleurs chroniques</li><li>Immunodépression, VIH (adjuvant)</li><li>Hypertension, cholestérol</li></ul>`,
+synergies:`<p>${SYN(['💚 Spiruline','🌴 Moringa','🍋 Citron (jus)'])}</p>`,
+contre:`<ul><li>Maladies auto-immunes actives : avis médical</li><li>Anticoagulants : riche en vitamine K</li><li>Iode : contient de l'iode — précaution en cas de maladie thyroïdienne</li></ul>`},
 
-{id:'spiruline',n:'Spiruline',c:'Algues & Superaliments',e:'💚',b:'gt',t:'algue',url:'https://naturaxe.fr',
- k:'spiruline anemie carence proteine fer energie allergie diabete cholesterol sport detox',
- d:h3('La micro-algue des champions')+'<p>L\'OMS la reconnaît comme "l\'aliment le plus nutritif au monde". Recommandée par la NASA. Source de protéines végétales la plus concentrée.</p>'+ul(['Protéines : 60-70% (tous acides aminés essentiels)','Phycocyanine : pigment bleu aux propriétés uniques','Fer biodisponible (3× la viande), vitamine B12'])+bx('✅ Recommandée par la NASA et l\'OMS contre la malnutrition mondiale','g'),
- p:dc('Débutants (semaine 1)','1g/jour — habituer l\'organisme (détox possible)')+dc('Entretien','3g/jour = 1 c.c. poudre ou 6 comprimés 500mg')+dc('Usage sportif / thérapeutique','5-10g/jour en fractionnant les prises'),
- m:ul(['Anémie, carences multiples, malnutrition','Fatigue chronique, épuisement physique et mental','Allergie saisonnière, rhinite allergique','Diabète, cholestérol, détox métaux lourds']),
- s:'<p>'+sy(['🌿 Nigelle','👑 Gelée royale','🌰 Ashwagandha','🌴 Moringa'])+'</p>',
- ci:bx('🚫 Phénylcétonurie : contient phénylalanine — CONTRE-INDIQUÉ','r')+ul(['Maladies auto-immunes actives : avis médical','Acheter uniquement spiruline certifiée'])},
+{id:'maca',name:'Maca (Racine des Andes)',cat:'Algues & Superaliments',em:'⚡',badge:'b-teal',tag:'algue',url:'https://naturaxe.fr',
+desc:`${H3('Le superaliment des Incas')}<p>Lepidium meyenii. Cultivé dans les Andes à 4000m d'altitude. Plante adaptogène utilisée depuis 3000 ans par les guerriers incas pour l'endurance et la fertilité.</p><ul><li>Macamides et macaènes : composés uniques à la maca</li><li>Glucosinolates, minéraux (zinc, fer, iode)</li><li>Acides aminés, vitamines B1, B2, B12</li></ul>`,
+posologie:`${DC('Poudre de racine','1-3 c.c./jour dans smoothie, lait ou eau. Dose progressive.')}${DC('Gélules standardisées','1.5-3g/jour, le matin ou avant l\'effort')}`,
+maladies:`<ul><li>Libido diminuée chez homme et femme</li><li>Infertilité masculine (mobilité spermatozoïdes)</li><li>Ménopause (bouffées de chaleur, irritabilité)</li><li>Fatigue chronique, performance sportive</li></ul>`,
+synergies:`<p>${SYN(['🌰 Ashwagandha','💚 Spiruline','👑 Gelée royale'])}</p>`,
+contre:`<ul><li>Pathologies thyroïdiennes : contient des glucosinolates — avis médical</li><li>Cancers hormonaux-dépendants : précaution</li><li>Grossesse / allaitement : données insuffisantes — éviter</li></ul>`},
 
-{id:'chlorella',n:'Chlorella',c:'Algues & Superaliments',e:'🟢',b:'gt',t:'algue',url:'https://naturaxe.fr',
- k:'chlorella detox metaux lourds mercure plomb fibromyalgie hypertension cholesterol',
- d:h3('La reine de la détox')+'<p>Chlorella vulgaris. Championne de la détoxification des métaux lourds. La plus haute concentration en chlorophylle connue dans le règne végétal.</p>'+ul(['Chlorophylle : 2-3% (concentration record mondial)','Chlorella Growth Factor (CGF) : facteur de croissance unique','Vitamine B12 (source végétale rare), zinc, fer']),
- p:dc('Détox métaux lourds','3-5g/jour, cure 3 mois minimum. Associer à la coriandre fraîche.')+dc('Entretien général','2-3g/jour en comprimés ou poudre'),
- m:ul(['Intoxication aux métaux lourds (mercure, plomb, cadmium)','Fibromyalgie, douleurs chroniques diffuses','Hypertension, cholestérol LDL élevé','Immunodépression profonde']),
- s:'<p>'+sy(['💚 Spiruline','🌴 Moringa','🍋 Citron jus'])+'</p>',
- ci:ul(['Maladies auto-immunes actives : avis médical','Anticoagulants : riche en vitamine K','Maladie thyroïdienne : contient de l\'iode'])},
+// ═══════════ COMPLÉMENTS ALIMENTAIRES ═══════════
+{id:'lait-chamelle',name:'Lait de chamelle',cat:'Compléments alimentaires',em:'🐫',badge:'b-amber',tag:'comp',url:'https://naturaxe.fr/shop-categorie/lait-de-chamelle/',
+desc:`${H3('L\'aliment médicament du désert')}<p>Mentionné dans les hadiths du Prophète ﷺ. Composition unique : riche en insuline naturelle, immunoglobulines et lactoferrine. L'insuline n'est pas dégradée dans l'intestin — miracle de la nature.</p><ul><li>Insuline naturelle : absorption intestinale directe</li><li>Lactoferrine : immunostimulant puissant</li><li>Vitamine C : 3× le lait de vache</li><li>Sans bêta-caséine A1 (mieux toléré)</li></ul>`,
+posologie:`${DC('Frais (idéal)','200-500ml/jour de préférence à jeun le matin')}${DC('Poudre lyophilisée','3-4 c.s. dans 200ml eau, 1-2×/jour')}`,
+maladies:`<ul><li>Diabète type 1 et 2 (insuline naturelle)</li><li>Autisme (améliorations cliniques rapportées)</li><li>Maladies auto-immunes, hépatite C</li><li>Crohn, rectocolite hémorragique</li><li>Intolérance au lactose</li></ul>`,
+synergies:`<p>${SYN(['🟤 Dattes Ajwa','🖤 Nigelle','🍯 Miel'])}</p>`,
+contre:`<ul><li>Allergie aux protéines du lait : croisement possible</li><li>Brucellosis : risque si lait cru non certifié — acheter certifié Naturaxe</li></ul>`},
 
-{id:'maca',n:'Maca (Racine des Andes)',c:'Algues & Superaliments',e:'⚡',b:'gt',t:'algue',url:'https://naturaxe.fr',
- k:'maca libido fertilite menopause energie endurance sport hormones andes',
- d:h3('Le superaliment des Incas')+'<p>Lepidium meyenii. Cultivé à 4000m d\'altitude depuis 3000 ans par les guerriers incas pour l\'endurance et la fertilité.</p>'+ul(['Macamides et macaènes : composés uniques à la maca','Glucosinolates, minéraux (zinc, fer, iode)','Acides aminés complets, vitamines B1 B2 B12']),
- p:dc('Poudre de racine','1-3 c.c./jour dans smoothie, lait ou eau. Dose progressive.')+dc('Gélules standardisées','1.5-3g/jour, le matin ou avant l\'effort'),
- m:ul(['Libido diminuée chez homme et femme','Infertilité masculine (mobilité spermatozoïdes)','Ménopause (bouffées de chaleur, irritabilité)','Fatigue chronique, performance sportive']),
- s:'<p>'+sy(['🌰 Ashwagandha','💚 Spiruline','👑 Gelée royale'])+'</p>',
- ci:ul(['Pathologies thyroïdiennes : glucosinolates — avis médical','Cancers hormonaux-dépendants : précaution','Grossesse / allaitement : données insuffisantes — éviter'])},
+{id:'mate',name:'Yerba Maté',cat:'Compléments alimentaires',em:'🥤',badge:'b-green',tag:'comp',url:'https://naturaxe.fr/shop-categorie/mate/',
+desc:`${H3('L\'énergie sans crash des Amériques')}<p>Ilex paraguariensis. Boisson nationale d'Argentine. Contient caféine + théobromine + théophylline : énergie douce et prolongée sans pic ni chute.</p><ul><li>Caféine : 80mg/tasse (café=95mg, thé=50mg)</li><li>Théobromine + théophylline (synergie unique)</li><li>15 acides aminés, vitamines B, antioxydants</li><li>Acide chlorogénique : brûle-graisses naturel</li></ul>`,
+posologie:`${DC('Calebasse traditionnelle','10g dans calebasse, eau 70-75°C, bombilla, rechargeable')}${DC('Thé maté simple','1-2 c.c. / 250ml, 75°C, 5-8 min, jusqu\'à 3 tasses/jour')}${DC('Gélules','500-1000mg d\'extrait standardisé/jour')}${BOX('⚠️ Éviter après 16h — peut perturber le sommeil','amber')}`,
+maladies:`<ul><li>Fatigue mentale, manque de concentration</li><li>Perte de poids, brûlage des graisses</li><li>Performances sportives, endurance</li><li>Cholestérol LDL, glycémie post-prandiale</li></ul>`,
+synergies:`<p>${SYN(['🌱 Menthe fraîche','💚 Spiruline','🍋 Citron'])}</p>`,
+contre:`${BOX('🚫 Grossesse et allaitement : déconseillé (caféine)','red')}<ul><li>Hypertension, anxiété, insomnie : éviter</li><li>Maladies cardiaques : avis médical</li></ul>`},
 
-{id:'lchamelle',n:'Lait de chamelle',c:'Compléments alimentaires',e:'🐫',b:'ga',t:'comp',url:'https://naturaxe.fr/shop-categorie/lait-de-chamelle/',
- k:'lait chamelle diabete autisme immunite crohn lactose intolerance hepatite',
- d:h3('L\'aliment médicament du désert')+'<p>Mentionné dans les hadiths. Composition unique : insuline naturelle non dégradée par l\'intestin, immunoglobulines et lactoferrine.</p>'+ul(['Insuline naturelle : absorption intestinale directe','Lactoferrine : immunostimulant puissant','Vitamine C : 3× le lait de vache','Sans bêta-caséine A1 (mieux toléré)']),
- p:dc('Frais (idéal)','200-500ml/jour de préférence à jeun le matin')+dc('Poudre lyophilisée','3-4 c.s. dans 200ml eau, 1-2×/jour'),
- m:ul(['Diabète type 1 et 2 (insuline naturelle)','Autisme (améliorations cliniques rapportées)','Maladies auto-immunes, hépatite C','Crohn, rectocolite hémorragique','Intolérance au lactose']),
- s:'<p>'+sy(['🟤 Dattes Ajwa','🖤 Nigelle','🍯 Miel'])+'</p>',
- ci:ul(['Allergie aux protéines du lait : croisement possible','Brucellosis : acheter uniquement lait certifié'])},
+{id:'vinaigre-cidre',name:'Vinaigre de cidre',cat:'Compléments alimentaires',em:'🍎',badge:'b-amber',tag:'comp',url:'https://naturaxe.fr',
+desc:`${H3('Le secret des centenaires')}<p>Vinaigre de cidre bio, non filtré, contenant "la mère" (bactéries probiotiques vivantes). Utilisé depuis Hippocrate. L'acide acétique régule le pH et améliore la sensibilité à l'insuline.</p><ul><li>Acide acétique : régulateur du pH, antifongique</li><li>La "mère" : probiotiques naturels (Acetobacter)</li><li>Pectine, enzymes digestives, potassium</li></ul>${BOX('✅ Toujours choisir BIO, non filtré, non pasteurisé, avec "la mère"','green')}`,
+posologie:`${DC('Usage interne général','1-2 c.s. dans grand verre d\'eau, 2×/jour avant repas. JAMAIS pur !')}${DC('Perte de poids','1 c.s. + 1 c.c. miel + eau tiède, 20 min avant repas du soir')}${DC('Usage externe (peau, cheveux)','Dilué 50% dans eau : lotion peau, rinçage cheveux')}`,
+maladies:`<ul><li>Digestion lente, candidose intestinale</li><li>Glycémie élevée (régulation post-prandiale)</li><li>Perte de poids, rétention d'eau</li><li>Acné, mycoses cutanées (usage externe)</li></ul>`,
+synergies:`<p>${SYN(['🍯 Miel','🧄 Ail','🫚 Gingembre','🍋 Citron'])}</p>`,
+contre:`${BOX('🚫 Insuline / hypoglycémiants : risque d\'hypoglycémie sévère','red')}<ul><li>Gastrite, ulcère : aggrave chez certains</li><li>Émail dentaire : rincer la bouche après chaque prise</li></ul>`},
 
-{id:'mate',n:'Yerba Maté',c:'Compléments alimentaires',e:'🥤',b:'gg',t:'comp',url:'https://naturaxe.fr/shop-categorie/mate/',
- k:'mate energie concentration perte poids cholesterol glycemie sport cerveau minceur cafe',
- d:h3('L\'énergie sans crash')+'<p>Ilex paraguariensis. Contient caféine + théobromine + théophylline : énergie douce et prolongée sans pic ni chute brutale, contrairement au café.</p>'+ul(['Caféine : 80mg/tasse (café=95mg, thé=50mg)','Théobromine + théophylline (synergie unique douce)','15 acides aminés, vitamines B, antioxydants puissants']),
- p:dc('Calebasse traditionnelle','10g dans calebasse, eau 70-75°C, bombilla rechargeable')+dc('Thé maté simple','1-2 c.c. / 250ml, 75°C, 5-8 min')+bx('⚠️ Éviter après 16h — perturbe le sommeil','a'),
- m:ul(['Fatigue mentale, manque de concentration','Perte de poids, brûlage des graisses','Performances sportives, endurance','Cholestérol LDL, glycémie post-prandiale']),
- s:'<p>'+sy(['🌱 Menthe fraîche','💚 Spiruline','🍋 Citron'])+'</p>',
- ci:bx('🚫 Grossesse et allaitement : déconseillé (caféine)','r')+ul(['Hypertension, anxiété, insomnie : éviter'])},
+{id:'ail-noir',name:'Ail noir fermenté',cat:'Compléments alimentaires',em:'🧄',badge:'b-amber',tag:'comp',url:'https://naturaxe.fr',
+desc:`${H3('L\'ail sublimé')}<p>Ail fermenté à 60-70°C pendant 30-60 jours. Ce procédé Maillard multiplie par 2 les antioxydants et transforme l'ail en un superaliment sans odeur et mieux toléré.</p><ul><li>S-allylcystéine (SAC) : 2× plus concentrée, stable, biodisponible</li><li>Sans odeur — pas de "bouche d'ail"</li><li>Goût doux, légèrement sucré (tamarin)</li></ul>`,
+posologie:`${DC('Ail noir frais','2-4 gousses/jour à tout moment de la journée')}${DC('Extrait en gélules','250-500mg d\'extrait standardisé, 2×/jour')}`,
+maladies:`<ul><li>Hypertension artérielle (effet comparable à certains médicaments légers)</li><li>Cholestérol LDL, athérosclérose</li><li>Infections récidivantes, immunité basse</li><li>Prévention cancer colorectal et gastrique</li></ul>`,
+synergies:`<p>${SYN(['🟡 Curcuma','🫚 Gingembre','🍎 Vinaigre de cidre'])}</p>`,
+contre:`<ul><li>Anticoagulants : interaction fluidifiante</li><li>Chirurgie prévue : arrêter 2 semaines avant</li></ul>`},
 
-{id:'vinaigre',n:'Vinaigre de cidre',c:'Compléments alimentaires',e:'🍎',b:'ga',t:'comp',url:'https://naturaxe.fr',
- k:'vinaigre cidre digestion glycemie perte poids candida acne reflux probiotique',
- d:h3('Le secret des centenaires')+'<p>Vinaigre de cidre bio, non filtré, avec "la mère" (probiotiques vivants). Utilisé depuis Hippocrate. L\'acide acétique régule le pH et améliore la sensibilité à l\'insuline.</p>'+ul(['"La mère" : probiotiques naturels vivants (Acetobacter)','Acide acétique : régulateur du pH, antifongique','Pectine, enzymes digestives, potassium'])+bx('✅ Choisir BIO, non filtré, non pasteurisé, avec "la mère"','g'),
- p:dc('Usage interne général','1-2 c.s. dans grand verre d\'eau, 2×/jour avant repas. JAMAIS pur !')+dc('Perte de poids','1 c.s. + 1 c.c. miel + eau tiède, 20 min avant repas du soir')+bx('🚫 JAMAIS consommé pur — attaque l\'émail dentaire','r'),
- m:ul(['Digestion lente, candidose intestinale','Glycémie élevée (régulation post-prandiale)','Perte de poids, rétention d\'eau','Acné, mycoses cutanées (usage externe)']),
- s:'<p>'+sy(['🍯 Miel','🧄 Ail','🫚 Gingembre','🍋 Citron'])+'</p>',
- ci:bx('🚫 Insuline / hypoglycémiants : risque d\'hypoglycémie sévère','r')+ul(['Gastrite, ulcère : peut aggraver','Émail dentaire : rincer la bouche après chaque prise'])},
+{id:'omega3',name:'Oméga-3 (Huile de poisson)',cat:'Compléments alimentaires',em:'🐟',badge:'b-teal',tag:'comp',url:'https://naturaxe.fr/shop-categorie/complements-alimentaires/',
+desc:`${H3('Les graisses essentielles du cerveau')}<p>Acides gras EPA et DHA extraits d'huiles de poissons des mers froides. Essentiels au bon fonctionnement du cerveau, du cœur et à la réduction de l'inflammation.</p><ul><li>EPA (acide eicosapentaénoïque) : anti-inflammatoire</li><li>DHA (acide docosahexaénoïque) : cerveau, vision, grossesse</li><li>Qualité pharma : concentration et pureté garanties</li></ul>`,
+posologie:`${DC('Prévention cardiovasculaire','1g EPA+DHA/jour (= 2-3 gélules selon concentration)')}${DC('Dépression, troubles cognitifs','2-4g EPA+DHA/jour selon les études cliniques')}${DC('Grossesse (DHA)','200-300mg DHA/jour minimum recommandé par l\'EFSA')}`,
+maladies:`<ul><li>Maladies cardiovasculaires (prévention et traitement)</li><li>Dépression, troubles bipolaires (adjuvant)</li><li>Inflammation chronique, arthrite rhumatoïde</li><li>TDAH chez l'enfant, troubles cognitifs</li><li>Grossesse : développement cérébral fœtal</li></ul>`,
+synergies:`<p>${SYN(['🟡 Curcuma','💚 Spiruline','🌰 Ashwagandha'])}</p>`,
+contre:`<ul><li>Anticoagulants à fortes doses : avis médical</li><li>Chirurgie prévue : réduire la dose</li><li>Allergie aux poissons : opter pour les oméga-3 végétaux (lin, chia)</li></ul>`},
 
-{id:'ail-noir',n:'Ail noir fermenté',c:'Compléments alimentaires',e:'🧄',b:'ga',t:'comp',url:'https://naturaxe.fr',
- k:'ail noir hypertension cholesterol cardiovasculaire cancer immunite antibiotique naturel',
- d:h3('L\'ail sublimé par fermentation')+'<p>Fermenté à 60-70°C pendant 30-60 jours. Ce procédé multiplie par 2 les antioxydants, élimine l\'odeur et améliore la tolérance digestive.</p>'+ul(['S-allylcystéine (SAC) : 2× plus concentrée, stable','Sans odeur — pas de "bouche d\'ail"','Goût doux, légèrement sucré (comme du tamarin)']),
- p:dc('Ail noir frais','2-4 gousses/jour à tout moment de la journée')+dc('Extrait en gélules','250-500mg extrait standardisé, 2×/jour'),
- m:ul(['Hypertension artérielle (effet comparable à certains médicaments légers)','Cholestérol LDL, athérosclérose','Infections récidivantes, immunité basse','Prévention cancer colorectal et gastrique']),
- s:'<p>'+sy(['🟡 Curcuma','🫚 Gingembre','🍎 Vinaigre de cidre'])+'</p>',
- ci:ul(['Anticoagulants : interaction fluidifiante','Chirurgie prévue : arrêter 2 semaines avant'])},
+{id:'magnesium',name:'Magnésium marin',cat:'Compléments alimentaires',em:'🔷',badge:'b-teal',tag:'comp',url:'https://naturaxe.fr/shop-categorie/complements-alimentaires/',
+desc:`${H3('Le minéral anti-stress')}<p>Le magnésium est cofacteur de 300 réactions enzymatiques. 75% des Français en sont déficients. Le magnésium marin (extrait d'eau de mer) est le mieux toléré et le mieux absorbé.</p><ul><li>Magnésium marin (hydroxyde de magnésium)</li><li>Associé à la vitamine B6 : absorption optimale</li><li>Forme la plus biodisponible sur le marché</li></ul>`,
+posologie:`${DC('Adultes (déficit)','300-400mg/jour de magnésium élément, en 2 prises avec les repas')}${DC('Crampes musculaires','400mg/jour le soir au coucher, cure 4-6 semaines')}`,
+maladies:`<ul><li>Stress chronique, anxiété, irritabilité</li><li>Crampes musculaires, tétanie</li><li>Insomnie, fatigue persistante</li><li>Migraines récurrentes</li><li>SPM (syndrome prémenstruel)</li></ul>`,
+synergies:`<p>${SYN(['🌰 Ashwagandha','🌼 Camomille','💜 Lavande H.E.'])}</p>`,
+contre:`<ul><li>Insuffisance rénale : éviter les fortes doses</li><li>Diarrhée : réduire la dose ou changer de forme</li><li>Certains antibiotiques : espacer la prise de 2h</li></ul>`},
 
-{id:'magnesium',n:'Magnésium marin',c:'Compléments alimentaires',e:'🔷',b:'gt',t:'comp',url:'https://naturaxe.fr/shop-categorie/complements-alimentaires/',
- k:'magnesium stress crampe insomnie migraine fatigue anxiete irritabilite spm',
- d:h3('Le minéral anti-stress')+'<p>Cofacteur de 300 réactions enzymatiques. 75% des Français en sont déficients. Le magnésium marin est le mieux toléré et le mieux absorbé.</p>'+ul(['Magnésium marin (hydroxyde de magnésium)','Associé à la vitamine B6 : absorption optimale']),
- p:dc('Adultes déficit','300-400mg/jour magnésium élément, en 2 prises avec repas')+dc('Crampes musculaires','400mg/jour le soir au coucher, cure 4-6 semaines'),
- m:ul(['Stress chronique, anxiété, irritabilité','Crampes musculaires, tétanie','Insomnie, fatigue persistante','Migraines récurrentes, SPM']),
- s:'<p>'+sy(['🌰 Ashwagandha','🌼 Camomille','💜 Lavande H.E.'])+'</p>',
- ci:ul(['Insuffisance rénale : éviter les fortes doses','Diarrhée : réduire la dose ou changer de forme'])},
+{id:'vit-d3',name:'Vitamine D3 & K2',cat:'Compléments alimentaires',em:'☀️',badge:'b-amber',tag:'comp',url:'https://naturaxe.fr/shop-categorie/complements-alimentaires/',
+desc:`${H3('Le duo soleil & vie')}<p>La vitamine D3 (cholécalciférol) est synthétisée par la peau au soleil. 80% des Européens sont en carence en hiver. Associée à la K2 (MK-7), elle fixe le calcium sur les os sans calcification artérielle.</p><ul><li>D3 : immunité, os, muscles, humeur</li><li>K2 MK-7 : dirige le calcium vers les os (et non les artères)</li></ul>${BOX('✅ L\'association D3+K2 est désormais le gold standard en supplémentation','green')}`,
+posologie:`${DC('Entretien hivernal','1000-2000 UI D3 + 50-100µg K2 MK-7/jour avec repas gras')}${DC('Carence avérée (dosage sanguin < 20ng/ml)','5000-10000 UI/jour pendant 3 mois, puis relais entretien')}`,
+maladies:`<ul><li>Infections récidivantes, immunodépression</li><li>Ostéoporose, rachitisme</li><li>Dépression saisonnière (SAD)</li><li>Maladies auto-immunes (SEP, polyarthrite)</li><li>Covid-19 (protection et sévérité réduite)</li></ul>`,
+synergies:`<p>${SYN(['🔷 Magnésium','🐟 Oméga-3','💚 Spiruline'])}</p>`,
+contre:`<ul><li>Hypercalcémie : contre-indiqué</li><li>Sarcoïdose : risque d'hypercalcémie</li><li>Certains médicaments contre l'épilepsie : interaction</li></ul>`},
 
-{id:'vitD',n:'Vitamine D3 & K2',c:'Compléments alimentaires',e:'☀️',b:'ga',t:'comp',url:'https://naturaxe.fr/shop-categorie/complements-alimentaires/',
- k:'vitamine D3 K2 immunite os osteoporose depression hiver carence soleil',
- d:h3('Le duo soleil & vie')+'<p>80% des Européens sont en carence en hiver. D3+K2 (MK-7) : le gold standard en supplémentation — fixe le calcium sur les os sans calcification artérielle.</p>'+ul(['D3 (cholécalciférol) : immunité, os, muscles, humeur','K2 MK-7 : dirige le calcium vers les os (pas les artères)'])+bx('✅ L\'association D3+K2 est désormais le gold standard en supplémentation','g'),
- p:dc('Entretien hivernal','1000-2000 UI D3 + 50-100µg K2 MK-7/jour avec repas gras')+dc('Carence avérée (< 20ng/ml)','5000-10000 UI/jour pendant 3 mois, puis relais entretien'),
- m:ul(['Infections récidivantes, immunodépression','Ostéoporose, rachitisme, fractures','Dépression saisonnière (SAD), fatigue hivernale','Maladies auto-immunes (SEP, polyarthrite)']),
- s:'<p>'+sy(['🔷 Magnésium','🐟 Oméga-3','💚 Spiruline'])+'</p>',
- ci:ul(['Hypercalcémie : contre-indiqué','Sarcoïdose : risque d\'hypercalcémie'])},
+// ═══════════ REMÈDES DE GRAND-MÈRE ═══════════
+{id:'argan',name:'Huile d\'Argan',cat:'Remèdes de grand-mère',em:'🥥',badge:'b-coral',tag:'gm',url:'https://naturaxe.fr',
+desc:`${H3('L\'or liquide du Maroc')}<p>Extraite des noix de l'arganier (Argania spinosa), endémique du Maroc. Double usage : culinaire (grillée) et cosmétique (non grillée). Riche en acide oléique et vitamine E.</p><ul><li>Acide oléique (oméga-9) : 43-49%</li><li>Acide linoléique (oméga-6) : 29-36%</li><li>Vitamine E (tocophérols) : 600mg/kg</li><li>Squalène, stérols végétaux</li></ul>`,
+posologie:`${DC('Cosmétique (peau, cheveux)','2-3 gouttes pures sur visage propre matin/soir. Ou pointes de cheveux.')}${DC('Culinaire (santé)','1-2 c.s./jour en filet (ne pas cuire) sur salades, couscous')}`,
+maladies:`<ul><li>Vieillissement cutané, rides, taches</li><li>Eczéma, psoriasis, peau sèche</li><li>Cheveux secs, cassants, fourchus</li><li>Cholestérol (usage alimentaire)</li></ul>`,
+synergies:`<p>${SYN(['🌹 Eau de rose','💜 Lavande H.E.','🍯 Miel'])}</p>`,
+contre:`<ul><li>Allergie aux fruits à coque : croisement possible</li><li>Usage culinaire uniquement avec argan torréfié (argan cosmétique = amer)</li></ul>`},
 
-{id:'omega3',n:'Oméga-3 (EPA + DHA)',c:'Compléments alimentaires',e:'🐟',b:'gt',t:'comp',url:'https://naturaxe.fr/shop-categorie/complements-alimentaires/',
- k:'omega3 coeur depression inflammation arthrite grossesse cerveau cholesterol cardiovasculaire',
- d:h3('Les graisses essentielles')+'<p>Acides gras EPA et DHA. Essentiels au cerveau, au cœur et à la réduction de l\'inflammation. Non synthétisables par l\'organisme.</p>'+ul(['EPA : anti-inflammatoire puissant','DHA : cerveau, vision, développement fœtal']),
- p:dc('Prévention cardiovasculaire','1g EPA+DHA/jour (= 2-3 gélules selon concentration)')+dc('Dépression, troubles cognitifs','2-4g EPA+DHA/jour')+dc('Grossesse (DHA)','200-300mg DHA/jour minimum recommandé par l\'EFSA'),
- m:ul(['Maladies cardiovasculaires (prévention et traitement)','Dépression, troubles bipolaires (adjuvant)','Arthrite rhumatoïde, inflammation chronique','TDAH chez l\'enfant, troubles cognitifs']),
- s:'<p>'+sy(['🟡 Curcuma','💚 Spiruline','🌰 Ashwagandha'])+'</p>',
- ci:ul(['Anticoagulants à fortes doses : avis médical','Allergie aux poissons : opter pour oméga-3 végétaux'])},
+{id:'eau-rose',name:'Eau de Rose',cat:'Remèdes de grand-mère',em:'🌹',badge:'b-coral',tag:'gm',url:'https://naturaxe.fr',
+desc:`${H3('Le secret de beauté de l\'Orient')}<p>Eau florale obtenue par distillation à la vapeur des pétales de Rosa damascena. Utilisée depuis des siècles dans la médecine persane, ottomane et marocaine.</p><ul><li>Géraniol, citronellol, nerol : composés actifs</li><li>pH légèrement acide (5-6) : tonifiant naturel</li><li>Propriétés antiseptiques, anti-inflammatoires</li></ul>`,
+posologie:`${DC('Soin visage (tonique)','Vaporiser ou appliquer au coton, matin et soir après nettoyage')}${DC('Soin yeux irrités','Compresse de coton imbibé d\'eau de rose, 5-10 min')}${DC('Interne (aromathérapie alimentaire)','Quelques gouttes dans eau, thé ou desserts')}`,
+maladies:`<ul><li>Peau sensible, rougeurs, couperose</li><li>Yeux fatigués, irrités, conjonctivite légère</li><li>Anxiété légère (inhalation)</li><li>Soins capillaires (brillance)</li></ul>`,
+synergies:`<p>${SYN(['🥥 Huile d\'Argan','🍃 Poudre de Sidr','💜 Lavande H.E.'])}</p>`,
+contre:`<ul><li>Allergie aux roses : test préalable recommandé</li><li>Choisir eau de rose 100% naturelle sans alcool ni conservateurs</li></ul>`},
 
-{id:'kefir',n:'Kéfir & Probiotiques',c:'Compléments alimentaires',e:'🥛',b:'gt',t:'comp',url:'https://naturaxe.fr/shop-categorie/produit-laitiers/',
- k:'kefir probiotiques microbiome intestin digestion anxiete depression immunite antibiotique',
- d:h3('Le microbiome réparé')+'<p>50+ souches probiotiques. 70% du système immunitaire réside dans l\'intestin. L\'axe intestin-cerveau explique l\'influence des probiotiques sur l\'humeur.</p>'+ul(['50+ souches (Lactobacillus, Bifidobacterium, levures)','GABA naturel (neuromodulateur calmant)','Vitamines B2, B12, K2']),
- p:dc('Usage quotidien (entretien)','150-300ml/jour, de préférence le matin à jeun')+dc('Post-antibiotiques','300-500ml/jour pendant 4 semaines minimum'),
- m:ul(['Troubles digestifs, ballonnements, diarrhée','Syndrome de l\'intestin irritable (SII)','Candidose intestinale récidivante','Dépression, anxiété (axe intestin-cerveau)']),
- s:'<p>'+sy(['💚 Spiruline','🟡 Curcuma','🧄 Ail noir'])+'</p>',
- ci:ul(['Intolérance sévère au lactose : opter pour kéfir de coco','Immunodépression sévère (chimio) : avis médical'])},
+{id:'charbon-actif',name:'Charbon végétal activé',cat:'Remèdes de grand-mère',em:'⚫',badge:'b-coral',tag:'gm',url:'https://naturaxe.fr',
+desc:`${H3('L\'adsorbant universel')}<p>Charbon végétal activé (bambou ou bois de hêtre). Sa structure microporeuse lui permet d'adsorber (piéger à sa surface) toxines, gaz et poisons. 1g de charbon activé = 1500 m² de surface adsorbante.</p><ul><li>Surface adsorbante : 500-1500 m²/g</li><li>Adsorbe gaz, toxines, médicaments, alcool</li><li>Neutre, sans goût, sans effet systémique</li></ul>`,
+posologie:`${DC('Ballonnements, gaz intestinaux','1-2 gélules (= 500mg-1g) 30 min avant ou 2h après repas')}${DC('Intoxication alimentaire légère','2-4 gélules immédiatement, puis 1-2 toutes les 4h, 24h')}${DC('Dents (whitening)','Poudre humidifiée sur brosse à dents, 2 min, 1-2×/semaine')}`,
+maladies:`<ul><li>Ballonnements, flatulences, aérophagie</li><li>Intoxication alimentaire légère, nausées</li><li>Diarrhée du voyageur</li><li>Blanchiment dentaire naturel</li></ul>`,
+synergies:`<p>${SYN(['🌱 Probiotiques (espacer de 2h)','🌼 Camomille','🫚 Gingembre'])}</p>`,
+contre:`${BOX('🚫 Ne pas prendre simultanément avec des médicaments — absorbe les principes actifs','red')}<ul><li>Constipation : contre-indiqué</li><li>Pas sur le long terme : peut réduire l\'absorption des nutriments</li></ul>`},
 
-{id:'argan',n:'Huile d\'Argan',c:'Remèdes de grand-mère',e:'🥥',b:'gc',t:'gm',url:'https://naturaxe.fr',
- k:'argan peau rides eczema psoriasis cheveux cholesterol cosmetique maroc beaute',
- d:h3('L\'or liquide du Maroc')+'<p>Argania spinosa, endémique du Maroc. Double usage : culinaire (torréfiée) et cosmétique (pression à froid). Riche en acides gras et vitamine E.</p>'+ul(['Acide oléique (oméga-9) : 43-49%','Acide linoléique (oméga-6) : 29-36%','Vitamine E (tocophérols) : 600mg/kg']),
- p:dc('Cosmétique (peau, cheveux)','2-3 gouttes pures sur visage propre matin/soir, ou pointes de cheveux')+dc('Culinaire (santé)','1-2 c.s./jour en filet (ne pas cuire) sur salades'),
- m:ul(['Vieillissement cutané, rides, taches brunes','Eczéma, psoriasis, peau sèche','Cheveux secs, cassants, fourchus','Cholestérol (usage alimentaire régulier)']),
- s:'<p>'+sy(['🌹 Eau de rose','💜 Lavande H.E.','🍯 Miel'])+'</p>',
- ci:ul(['Allergie aux fruits à coque : croisement possible','Usage culinaire uniquement avec argan torréfié'])},
+{id:'huile-coco',name:'Huile de coco vierge',cat:'Remèdes de grand-mère',em:'🥝',badge:'b-coral',tag:'gm',url:'https://naturaxe.fr',
+desc:`${H3('Le trésor tropical polyvalent')}<p>Cocos nucifera. L'huile de coco vierge (pression à froid) est l'huile la plus polyvalente : alimentation, cosmétique, hygiène bucco-dentaire. Riche en triglycérides à chaîne moyenne (TCM).</p><ul><li>Acide laurique : 47% (antibactérien, antiviral)</li><li>TCM : source d'énergie rapide pour le cerveau</li><li>Point de fusion : 24°C (solide = frais, liquide = chaud)</li></ul>`,
+posologie:`${DC('Oil pulling (hygiène bucco-dentaire)','1 c.s. à jeun, faire des bains de bouche 10-20 min, cracher, rincer')}${DC('Usage alimentaire','1-2 c.s./jour pour cuisson haute température')}${DC('Usage cosmétique','Appliquer pur sur peau, cheveux, ongles')}`,
+maladies:`<ul><li>Candidose buccale (oil pulling)</li><li>Plaque dentaire, gingivites</li><li>Peau sèche, eczéma, vergetures</li><li>Alzheimer (TCM alimentent les neurones)</li></ul>`,
+synergies:`<p>${SYN(['🖤 Huile de Nigelle','🍯 Miel','💜 Lavande H.E.'])}</p>`,
+contre:`<ul><li>Cholestérol LDL élevé : modération (riche en graisses saturées)</li><li>Allergie noix de coco (rare)</li></ul>`},
 
-{id:'eau-rose',n:'Eau de Rose',c:'Remèdes de grand-mère',e:'🌹',b:'gc',t:'gm',url:'https://naturaxe.fr',
- k:'eau rose peau sensible rougeur couperose yeux irrites tonique cosmetique',
- d:h3('Le secret de beauté de l\'Orient')+'<p>Eau florale de Rosa damascena. Utilisée depuis des siècles en médecine persane et marocaine. Tonifiant naturel et antiseptique doux.</p>'+ul(['Géraniol, citronellol, nerol : composés actifs','pH légèrement acide (5-6) : tonifiant naturel']),
- p:dc('Tonique visage','Vaporiser ou appliquer au coton matin et soir après nettoyage')+dc('Soin yeux irrités','Compresse imbibée sur les yeux, 5-10 min'),
- m:ul(['Peau sensible, rougeurs, couperose','Yeux fatigués, irrités, conjonctivite légère','Anxiété légère (inhalation)','Soins capillaires (brillance, légèreté)']),
- s:'<p>'+sy(['🥥 Huile d\'Argan','🍃 Poudre de Sidr','💜 Lavande H.E.'])+'</p>',
- ci:ul(['Allergie aux roses : test préalable recommandé','Choisir eau de rose 100% naturelle sans alcool'])},
+{id:'savon-beldi',name:'Savon Beldi naturel',cat:'Hygiène naturelle',em:'🧼',badge:'b-purple',tag:'hygiene',url:'https://naturaxe.fr/shop-categorie/parfums-muscs/savon-shampooing/',
+desc:`${H3('Le savon traditionnel du hammam')}<p>Savon marocain traditionnel obtenu par saponification d'huile d'olive. Texture de pâte, 100% naturel, sans conservateurs. Exfoliant, nettoyant et nourrissant en même temps.</p><ul><li>Huile d'olive saponifiée : base principale</li><li>Potasse : saponifiant naturel</li><li>Eau, parfums naturels</li></ul>`,
+posologie:`${DC('Hammam / douche','Appliquer sur peau humide chaude, masser en mouvements circulaires, laisser 5 min, gommer au kessa, rincer')}${DC('Fréquence recommandée','1-2 fois par semaine pour l\'exfoliation complète')}`,
+maladies:`<ul><li>Peau terne, peaux mortes accumulées</li><li>Pores dilatés, points noirs</li><li>Cellulite (massage drainant)</li><li>Psoriasis, eczéma (adoucit)</li></ul>`,
+synergies:`<p>${SYN(['🥥 Huile d\'Argan','🌹 Eau de rose','🖤 Huile de Nigelle'])}</p>`,
+contre:`<ul><li>Peaux très sèches ou dermatoses actives : consulter avant</li><li>Ne pas appliquer sur le visage sans test préalable</li></ul>`},
 
-{id:'charbon',n:'Charbon végétal activé',c:'Remèdes de grand-mère',e:'⚫',b:'gc',t:'gm',url:'https://naturaxe.fr',
- k:'charbon actif ballonnement gaz intoxication diarrhee blanchiment dents detox',
- d:h3('L\'adsorbant universel')+'<p>Sa structure microporeuse adsorbe toxines, gaz et poisons. 1g = 1500 m² de surface adsorbante. Utilisé en médecine d\'urgence.</p>'+ul(['Surface adsorbante : 500-1500 m²/g','Adsorbe gaz, toxines, médicaments']),
- p:dc('Ballonnements, gaz','1-2 gélules (500mg-1g) 30 min avant ou 2h après repas')+dc('Intoxication alimentaire légère','2-4 gélules immédiatement, puis 1-2 toutes les 4h, 24h')+dc('Blanchiment dentaire','Poudre humidifiée sur brosse, 2 min, 1-2×/semaine'),
- m:ul(['Ballonnements, flatulences, aérophagie','Intoxication alimentaire légère, nausées','Diarrhée du voyageur','Blanchiment dentaire naturel']),
- s:'<p>'+sy(['🌼 Camomille','🫚 Gingembre'])+'</p><p>⚠️ Espacer les probiotiques de 2h minimum</p>',
- ci:bx('🚫 Ne pas prendre simultanément avec des médicaments — absorbe les principes actifs','r')+ul(['Constipation : contre-indiqué','Usage long terme : peut réduire l\'absorption des nutriments'])},
+{id:'miswak',name:'Miswak (Siwak)',cat:'Hygiène naturelle',em:'🦷',badge:'b-purple',tag:'hygiene',url:'https://naturaxe.fr/shop-categorie/hygiene-bucco-dentaire/',
+desc:`${H3('La brosse à dents prophétique')}<p>Extrait de la racine du Salvadora persica. Le Prophète ﷺ l'utilisait. Contient des principes actifs antibactériens et reminéralisants naturels. Étudié cliniquement : aussi efficace que la brosse à dents pour la plaque.</p><ul><li>Sulfocyanate, fluoride naturel, tannins</li><li>Silice (abrasif doux), benzylisothiocyanate</li><li>Antiseptique naturel, reminéralisant</li></ul>`,
+posologie:`${DC('Utilisation quotidienne','Couper l\'extrémité, mâcher 1 min pour exposer les fibres, frotter les dents en mouvements circulaires')}${DC('Fréquence','3-5 fois par jour — avant chaque prière selon la Sunnah')}`,
+maladies:`<ul><li>Plaque dentaire, tartre</li><li>Gingivites, saignements des gencives</li><li>Mauvaise haleine (halitose)</li><li>Blanchiment naturel des dents</li></ul>`,
+synergies:`<p>${SYN(['🥝 Huile de coco (oil pulling)','🖤 Charbon végétal','🍯 Miel (après soin)'])}</p>`,
+contre:`<ul><li>Personnes avec bridges ou implants : frotter délicatement</li><li>Allergie au Salvadora persica : très rare</li></ul>`},
 
-{id:'coco',n:'Huile de coco vierge',c:'Remèdes de grand-mère',e:'🥝',b:'gc',t:'gm',url:'https://naturaxe.fr',
- k:'coco oil pulling candida peau seche eczema vergeture alzheimer cosmetique naturel',
- d:h3('Le trésor tropical polyvalent')+'<p>Cocos nucifera, pression à froid. La plus polyvalente des huiles naturelles. Riche en triglycérides à chaîne moyenne (TCM) pour le cerveau.</p>'+ul(['Acide laurique : 47% (antibactérien, antiviral)','TCM : source d\'énergie rapide pour le cerveau']),
- p:dc('Oil pulling (hygiène bucco-dentaire)','1 c.s. à jeun, bains de bouche 10-20 min, cracher, rincer')+dc('Usage alimentaire','1-2 c.s./jour pour cuisson haute température')+dc('Usage cosmétique','Appliquer pur sur peau, cheveux ou ongles'),
- m:ul(['Candidose buccale (oil pulling efficace)','Plaque dentaire, gingivites','Peau sèche, eczéma, vergetures','Alzheimer (TCM alimentent les neurones)']),
- s:'<p>'+sy(['🖤 Huile de Nigelle','🍯 Miel','💜 Lavande H.E.'])+'</p>',
- ci:ul(['Cholestérol LDL élevé : modération (graisses saturées)','Allergie noix de coco : rare'])},
+{id:'senne',name:'Séné (feuilles)',cat:'Plantes médicinales',em:'🌿',badge:'b-green',tag:'plante',url:'https://naturaxe.fr/shop-categorie/plantes-medicinales-racines/',
+desc:`${H3('Le laxatif naturel prophétique')}<p>Cassia senna, mentionné dans la médecine prophétique. Le Prophète ﷺ l'aurait recommandé. Laxatif stimulant naturel d'action rapide, très utilisé en médecine arabe traditionnelle.</p><ul><li>Sénosides A et B : glycosides anthraquinoniques</li><li>Flavonoïdes, mucilages</li><li>Action en 6-12h après ingestion</li></ul>`,
+posologie:`${DC('Tisane (constipation ponctuelle)','1 c.c. feuilles + 200ml eau froide, macération 6h (eau froide réduit les crampes). Boire le soir.')}${DC('Usage maximal','Pas plus de 10 jours consécutifs')}`,
+maladies:`<ul><li>Constipation passagère ou chronique</li><li>Préparation aux examens coliques</li></ul>`,
+synergies:`<p>${SYN(['🌱 Fenouil (anti-crampes)','🍯 Miel','🧄 Ail'])}</p>`,
+contre:`${BOX('🚫 Grossesse, allaitement, enfants < 12 ans : CONTRE-INDIQUÉ','red')}<ul><li>Maladies inflammatoires intestinales (Crohn, RCH)</li><li>Pas plus de 10 jours sans avis médical</li></ul>`},
 
-{id:'miswak',n:'Miswak (Siwak)',c:'Hygiène naturelle',e:'🦷',b:'gp',t:'hygiene',url:'https://naturaxe.fr/shop-categorie/hygiene-bucco-dentaire/',
- k:'miswak siwak dents gencive haleine plaque tartre prophetique oral hygiene blanchiment',
- d:h3('La brosse à dents prophétique')+'<p>Extrait de racine du Salvadora persica. Le Prophète ﷺ l\'utilisait. Aussi efficace que la brosse à dents contre la plaque selon les études cliniques.</p>'+ul(['Sulfocyanate, fluoride naturel, tannins','Silice (abrasif doux), benzylisothiocyanate','Antiseptique naturel, reminéralisant']),
- p:dc('Usage quotidien','Couper l\'extrémité, mâcher 1 min pour exposer les fibres, frotter en mouvements circulaires')+dc('Fréquence','3-5 fois par jour — avant chaque prière selon la Sunnah'),
- m:ul(['Plaque dentaire, tartre dentaire','Gingivites, saignements des gencives','Mauvaise haleine (halitose)','Blanchiment naturel progressif des dents']),
- s:'<p>'+sy(['🥝 Huile de coco (oil pulling)','⚫ Charbon végétal','🍯 Miel'])+'</p>',
- ci:ul(['Bridges ou implants : frotter délicatement','Allergie au Salvadora persica : très rare'])},
+{id:'graines-fenouil',name:'Graines de Fenouil',cat:'Plantes médicinales',em:'🌾',badge:'b-green',tag:'plante',url:'https://naturaxe.fr/shop-categorie/tisane/',
+desc:`${H3('L\'antispasmodique digestif')}<p>Foeniculum vulgare. Utilisé depuis l'Antiquité dans toutes les traditions médicales. Particulièrement efficace pour les coliques du nourrisson et les troubles digestifs fonctionnels.</p><ul><li>Anéthol (50-70%) : antispasmodique puissant</li><li>Fenchone, limonène, alpha-pinène</li><li>Flavonoïdes, phytoestrogènes</li></ul>`,
+posologie:`${DC('Tisane adulte (digestion)','1 c.c. graines écrasées + 200ml eau bouillante, 10 min, 2-3×/jour')}${DC('Bébé (coliques)','1/2 c.c. graines + 200ml eau, 10 min, filtrer, donner 1-2 c.s. tiède avant biberon')}`,
+maladies:`<ul><li>Coliques du nourrisson (très efficace)</li><li>Ballonnements, gaz, aérophagie</li><li>Règles irrégulières, SPM</li><li>Lactation insuffisante (galactagogue)</li></ul>`,
+synergies:`<p>${SYN(['🌼 Camomille','🫚 Gingembre','🌱 Menthe'])}</p>`,
+contre:`<ul><li>Allergie aux Apiacées (carotte, céleri, persil)</li><li>Grossesse : éviter les fortes doses (phytoestrogènes)</li><li>Cancers hormono-dépendants : prudence</li></ul>`},
 
-{id:'savon',n:'Savon Beldi naturel',c:'Hygiène naturelle',e:'🧼',b:'gp',t:'hygiene',url:'https://naturaxe.fr/shop-categorie/parfums-muscs/savon-shampooing/',
- k:'savon beldi hammam exfoliant pore cellulite peau morte naturel maroc douche',
- d:h3('Le savon du hammam traditionnel')+'<p>Savon marocain traditionnel par saponification d\'huile d\'olive. Texture de pâte noire, 100% naturel, sans conservateurs. Exfoliant, nettoyant et nourrissant simultanément.</p>'+ul(['Huile d\'olive saponifiée : base principale','Potasse : saponifiant naturel']),
- p:dc('Hammam / douche','Appliquer sur peau humide chaude, masser, laisser 5 min, gommer au kessa, rincer')+dc('Fréquence','1-2 fois par semaine pour exfoliation complète du corps'),
- m:ul(['Peau terne, peaux mortes accumulées','Pores dilatés, points noirs','Cellulite (massage drainant avec kessa)','Psoriasis, eczéma (adoucit et nettoie)']),
- s:'<p>'+sy(['🥥 Huile d\'Argan (après le soin)','🌹 Eau de rose','🖤 Huile de Nigelle'])+'</p>',
- ci:ul(['Peaux très sèches ou dermatoses actives : consulter avant','Ne pas appliquer sur le visage sans test préalable'])},
+{id:'fenugrec',name:'Fenugrec (Helba)',cat:'Plantes médicinales',em:'🌰',badge:'b-green',tag:'plante',url:'https://naturaxe.fr/shop-categorie/plantes-medicinales-racines/',
+desc:`${H3('La plante de la force et de la féminité')}<p>Trigonella foenum-graecum. Mentionné dans les hadiths du Prophète ﷺ. Utilisé en médecine ayurvédique et arabe. Phytoestrogène naturel majeur.</p><ul><li>Diosgénine : précurseur des hormones sexuelles</li><li>4-hydroxyisoleucine : régulateur de l'insuline</li><li>Fibres solubles (galactomannanes)</li><li>Fer, zinc, magnésium, vitamines B</li></ul>`,
+posologie:`${DC('Graines entières (trempage)','1-2 c.c. trempées une nuit dans l\'eau, avaler le matin avec l\'eau de trempage')}${DC('Poudre (lait maternel, prise de masse)','1 c.c. dans yaourt ou smoothie, 2×/jour')}${DC('Gélules','500mg-1g, 3×/jour')}`,
+maladies:`<ul><li>Allaitement insuffisant (galactagogue puissant)</li><li>Diabète type 2 (régule la glycémie)</li><li>Prise de masse musculaire, convalescence</li><li>Perte de cheveux (phytoestrogènes)</li><li>Testostérone (hommes : stimulation)</li></ul>`,
+synergies:`<p>${SYN(['🐫 Lait de chamelle','🍯 Miel','💚 Spiruline'])}</p>`,
+contre:`${BOX('🚫 Grossesse : contractions utérines — déconseillé','red')}<ul><li>Anticoagulants : interaction</li><li>Allergie aux légumineuses (cacahuète, soja)</li></ul>`},
 
-{id:'musc',n:'Musc naturel',c:'Hygiène naturelle',e:'🌟',b:'gp',t:'hygiene',url:'https://naturaxe.fr/shop-categorie/parfums-muscs/musc/',
- k:'musc parfum halal naturel sans alcool prophetique bien etre spirituel',
- d:h3('Le parfum prophétique')+'<p>Le Prophète ﷺ aimait le musc. Parfum sans alcool (halal), utilisé depuis des siècles dans le monde islamique. Propriétés calmantes et spirituelles.</p>'+ul(['Musc blanc, musc rose, musc al-maleki','Sans alcool — 100% halal','Notes boisées, florales ou sucrées selon variété']),
- p:dc('Application corps','1-2 touches sur poignets, nuque, derrière les oreilles')+dc('Tissu / vêtements','Appliquer sur un coin de tissu, laisser sécher avant contact peau'),
- m:ul(['Stress, anxiété (olfactothérapie naturelle)','Soin spirituel (Roqya, méditation, prière)','Bien-être général, confiance en soi']),
- s:'<p>'+sy(['🌹 Eau de rose','🫒 Huile d\'olive','💜 Lavande H.E.'])+'</p>',
- ci:ul(['Allergie aux parfums : test sur petite zone avant','Musc synthétique (muscs nitrés) : à éviter — choisir musc naturel pur'])},
+{id:'cannelle-ceylon',name:'Cannelle de Ceylan',cat:'Remèdes de grand-mère',em:'🟫',badge:'b-coral',tag:'gm',url:'https://naturaxe.fr',
+desc:`${H3('La cannelle vraie anti-diabétique')}<p>Cinnamomum verum (Ceylan) ≠ Cinnamomum cassia (Chine). La cannelle de Ceylan est moins riche en coumarine (hépatotoxique) et plus sûre. Hypoglycémiante naturelle validée cliniquement.</p><ul><li>Cinnamaldéhyde : actif principal (antidiabétique)</li><li>Acide cinnamique, cinnamyle acétate</li><li>Tanins, mucilages, vitamines A, B, C</li></ul>${BOX('⚠️ Choisir CEYLAN (bâtons fins, enroulés) et non Cassia (bâton épais) pour un usage quotidien','amber')}`,
+posologie:`${DC('Régulation glycémie','1/2 à 1 c.c./jour dans yaourt, café, tisane ou latte')}${DC('Gélules standardisées','250-500mg d\'extrait aqueux, 2×/jour aux repas')}`,
+maladies:`<ul><li>Diabète type 2 (réduit la glycémie de 18-29% selon études)</li><li>Candida albicans, infections fongiques</li><li>Mauvaise circulation, refroidissement</li><li>Règles douloureuses</li></ul>`,
+synergies:`<p>${SYN(['🟡 Curcuma','🫚 Gingembre','🍯 Miel'])}</p>`,
+contre:`<ul><li>Cannelle Cassia (chinoise) à forte dose : hépatotoxique (coumarine)</li><li>Anticoagulants : légère interaction</li><li>Grossesse : éviter les compléments concentrés</li></ul>`},
+
+{id:'chardon-marie',name:'Chardon-Marie',cat:'Plantes médicinales',em:'🌸',badge:'b-green',tag:'plante',url:'https://naturaxe.fr/shop-categorie/plantes-medicinales-racines/',
+desc:`${H3('Le protecteur du foie')}<p>Silybum marianum. Plante hépatoprotectrice de référence, validée par de nombreuses études cliniques. La silymarine est le principe actif le plus étudié en phytohépatologie.</p><ul><li>Silymarine (2-3% des graines) : hépatoprotecteur majeur</li><li>Silybin, silydianin, silychristin</li><li>Flavonoïdes, huile grasse (acide linoléique)</li></ul>${BOX('✅ Seule plante validée cliniquement pour régénérer les cellules hépatiques','green')}`,
+posologie:`${DC('Extrait standardisé à 70-80% silymarine','300-450mg/jour en 3 prises avant repas, cure 3 mois')}${DC('Alcoolisation passée / médicaments hépatotoxiques','600mg/jour en phase active, puis 300mg/jour entretien')}`,
+maladies:`<ul><li>Hépatites A, B, C (adjuvant)</li><li>Cirrhose (ralentit la progression)</li><li>Stéatose hépatique (foie gras)</li><li>Intoxication aux champignons (amanite) : urgence médicale</li></ul>`,
+synergies:`<p>${SYN(['🟡 Curcuma','🍋 Citron','🧄 Ail noir'])}</p>`,
+contre:`<ul><li>Allergie aux Astéracées : croisement possible</li><li>Interactions avec certains médicaments métabolisés par le foie (cytochrome P450)</li></ul>`},
+
+{id:'echinacea',name:'Échinacée',cat:'Plantes médicinales',em:'🌷',badge:'b-green',tag:'plante',url:'https://naturaxe.fr/shop-categorie/plantes-medicinales-racines/',
+desc:`${H3('L\'immunostimulant des plaines')}<p>Echinacea purpurea ou angustifolia. Plante originaire d'Amérique du Nord utilisée par les Amérindiens depuis des siècles. L'immunostimulant naturel le plus vendu au monde.</p><ul><li>Alkylamides : immunomodulateurs actifs</li><li>Polysaccharides, glycoprotéines</li><li>Acide chicorique, échinacosides</li></ul>`,
+posologie:`${DC('Prévention (hiver)','200-400mg d\'extrait standardisé, 1×/jour, cure 3 semaines / 1 semaine de pause')}${DC('Traitement (infection active)','400mg, 3×/jour pendant 7-10 jours maximum')}`,
+maladies:`<ul><li>Infections ORL récidivantes, rhumes à répétition</li><li>Primo-infection grippale</li><li>Immunodépression saisonnière</li></ul>`,
+synergies:`<p>${SYN(['🐝 Propolis','🍯 Miel','🌲 Ravintsara'])}</p>`,
+contre:`${BOX('🚫 Maladies auto-immunes actives : stimule l\'immunité — déconseillé','red')}<ul><li>Immunosuppresseurs (greffe, etc.) : interaction majeure</li><li>Allergie aux Astéracées : croisement possible</li></ul>`},
+
+{id:'musc',name:'Musc naturel',cat:'Hygiène naturelle',em:'🌟',badge:'b-purple',tag:'hygiene',url:'https://naturaxe.fr/shop-categorie/parfums-muscs/musc/',
+desc:`${H3('Le parfum prophétique')}<p>Le Prophète ﷺ aimait le musc et l'utilisait. Le musc naturel est un parfum sans alcool (halal), utilisé depuis des siècles dans le monde islamique. Propriétés calmantes et spirituelles reconnues.</p><ul><li>Musc blanc, musc rose, musc al maleki</li><li>Sans alcool — 100% halal</li><li>Notes boisées, florales ou sucrées selon la variété</li></ul>`,
+posologie:`${DC('Application corps','1-2 touches sur poignets, nuque, derrière les oreilles')}${DC('Tissu / vêtements','Appliquer sur un coin de tissu, laissez sécher avant contact peau')}`,
+maladies:`<ul><li>Stress, anxiété (olfactothérapie)</li><li>Soin spirituel (Roqya, méditation)</li><li>Bien-être général, confiance en soi</li></ul>`,
+synergies:`<p>${SYN(['🌹 Eau de rose','🫒 Huile d\'olive','💜 Lavande H.E.'])}</p>`,
+contre:`<ul><li>Allergie aux parfums : test sur petite zone avant</li><li>Musc synthétique (muscs nitrés) : à éviter — choisir musc naturel</li></ul>`},
+
+{id:'kefir',name:'Kéfir & Probiotiques',cat:'Compléments alimentaires',em:'🥛',badge:'b-teal',tag:'comp',url:'https://naturaxe.fr/shop-categorie/produit-laitiers/',
+desc:`${H3('Le microbiome réparé')}<p>Le kéfir est une boisson fermentée à base de lait ou d'eau contenant des dizaines de souches bactériennes et levures probiotiques. Révolution scientifique : 70% du système immunitaire est dans l'intestin.</p><ul><li>50+ souches probiotiques (Lactobacillus, Bifidobacterium, levures)</li><li>GABA naturel (neuromodulateur calmant)</li><li>Calcium, protéines partiellement prédigérées</li><li>Vitamines B2, B12, K2</li></ul>`,
+posologie:`${DC('Usage quotidien (entretien microbiome)','150-300ml de kéfir/jour, de préférence le matin à jeun ou entre les repas')}${DC('Post-antibiotiques (réensemencement)','300-500ml/jour pendant 4 semaines minimum')}`,
+maladies:`<ul><li>Troubles digestifs, ballonnements, diarrhée</li><li>Syndrome de l'intestin irritable (SII)</li><li>Candidose intestinale récidivante</li><li>Immunodépression, infections à répétition</li><li>Dépression, anxiété (axe intestin-cerveau)</li></ul>`,
+synergies:`<p>${SYN(['💚 Spiruline','🟡 Curcuma','🧄 Ail noir'])}</p>`,
+contre:`<ul><li>Intolérance sévère au lactose : opter pour kéfir de coco ou de soja</li><li>Immunodépression sévère (chimiothérapie) : avis médical (apport bactérien)</li></ul>`},
 ];
 
-// ── APP ──────────────────────────────────────────────────────────────────────
-let aTag='all', selId=null, aTab=0;
-const TLABS=['📋 Description','💊 Posologie','🩺 Maladies','🔗 Synergies','⚠️ Contre-ind.'];
+let activeTag='all', selId=null, activeTab=0;
 
 function renderCats(){
-  document.getElementById('cats').innerHTML=CATS.map(c=>`<button class="cb ${aTag===c.t?'on':''}" onclick="setTag('${c.t}')">${c.e} ${c.l}</button>`).join('');
+  document.getElementById('cats').innerHTML=CATS.map(c=>`<button class="cat-btn ${activeTag===c.tag?'on':''}" onclick="setTag('${c.tag}')">${c.em} ${c.label}</button>`).join('');
 }
-
-function setTag(t){
-  aTag=t;
-  document.getElementById('srch').value='';
-  selId=null;
-  renderCats();renderGrid();
-  document.getElementById('fz').innerHTML='';
-}
+function setTag(t){activeTag=t;selId=null;renderCats();renderGrid();document.getElementById('ficheZone').innerHTML='';}
 
 function renderGrid(){
-  const raw=document.getElementById('srch').value;
-  const q=raw.toLowerCase().trim();
-  const items=PRODS.filter(p=>{
-    // Filtre catégorie (ignoré si recherche active)
-    const okCat=q?true:(aTag==='all'||p.t===aTag);
-    if(!okCat)return false;
-    if(!q)return true;
-    // Cherche dans : nom + catégorie + mots-clés dédiés
-    const hay=(p.n+' '+p.c+' '+(p.k||'')).toLowerCase();
-    return hay.includes(q);
-  });
-  document.getElementById('tn').textContent=PRODS.length;
-  document.getElementById('cn').textContent=items.length+' produit'+(items.length>1?'s':'')+(q?' trouvé'+(items.length>1?'s':''):'');
-  if(!items.length){
-    document.getElementById('grid').innerHTML=`<div class="nores"><div class="ne">🔍</div><p>Aucun résultat pour "<strong>${raw}</strong>"<br>Essayez : miel, nigelle, diabète, stress, cheveux…</p></div>`;
-    return;
-  }
-  document.getElementById('grid').innerHTML=items.map(p=>`
-    <div class="card ${selId===p.id?'sel':''}" onclick="pick('${p.id}')">
-      <span class="em">${p.e}</span>
-      <div class="cn">${p.n}</div>
-      <div class="cc">${p.c}</div>
-      <span class="bdg ${p.b}">${p.c.split(/[&(]/)[0].trim().split(' ').slice(0,2).join(' ')}</span>
-    </div>`).join('');
+  const q=document.getElementById('srch').value.toLowerCase();
+  let items=PRODS.filter(p=>(activeTag==='all'||p.tag===activeTag)&&(!q||p.name.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q)||p.maladies.toLowerCase().includes(q)));
+  const n=items.length;
+  document.getElementById('countDisp').textContent=n+' produit'+(n>1?'s':'')+(q?' trouvé'+(n>1?'s':''):'');
+  document.getElementById('grid').innerHTML=n?items.map(p=>`
+    <div class="card ${selId===p.id?'sel':''}" onclick="selectProd('${p.id}')">
+      <span class="card-em">${p.em}</span>
+      <div class="card-name">${p.name}</div>
+      <div class="card-cat">${p.cat}</div>
+      <span class="badge ${p.badge}">${p.cat.split('&')[0].trim().split(' ').slice(0,2).join(' ')}</span>
+    </div>`).join(''):`<div class="empty"><div class="big">🌿</div><p>Aucun produit trouvé pour "${q}"</p></div>`;
 }
 
-function pick(id){
-  selId=id;aTab=0;renderGrid();renderFiche();
-  setTimeout(()=>document.getElementById('fz').scrollIntoView({behavior:'smooth',block:'start'}),80);
+function selectProd(id){
+  selId=id;activeTab=0;renderGrid();renderFiche();
+  setTimeout(()=>document.getElementById('ficheZone').scrollIntoView({behavior:'smooth',block:'start'}),80);
 }
+
+const TABS=[
+  {icon:'📋',label:'Description'},
+  {icon:'💊',label:'Posologie & Dosage'},
+  {icon:'🩺',label:'Maladies & Usages'},
+  {icon:'🔗',label:'Synergies'},
+  {icon:'⚠️',label:'Contre-indications'},
+];
 
 function renderFiche(){
   const p=PRODS.find(x=>x.id===selId);if(!p)return;
-  const tabs=TLABS.map((l,i)=>`<button class="tab ${i===aTab?'on':''}" onclick="switchTab(${i})">${l}</button>`).join('');
-  const cont=[p.d,p.p,p.m,p.s,p.ci][aTab];
-  const waM=encodeURIComponent('Bonjour, je suis intéressé par '+p.n+' — pouvez-vous me conseiller ?');
-  document.getElementById('fz').innerHTML=`
-    <div class="fiche">
-      <div class="fh">
-        <div class="fem">${p.e}</div>
-        <div>
-          <div class="ftag">${p.c} · naturaxe.fr</div>
-          <div class="ftit">${p.n}</div>
-          <div class="fsub">Fiche technique · Posologie · Synergies · Contre-indications</div>
-          <div class="fbd">
-            <span class="fb">🌿 100% Naturel</span>
-            <span class="fb">✅ Qualité premium</span>
-            <span class="fb">📋 Fiche complète</span>
+  const contents=[p.desc,p.posologie,p.maladies,p.synergies,p.contre];
+  const tabsHTML=TABS.map((t,i)=>`<button class="tab ${i===activeTab?'on':''}" onclick="switchTab(${i})">${t.icon} ${t.label}</button>`).join('');
+  document.getElementById('ficheZone').innerHTML=`
+    <div class="fiche-panel">
+      <div class="fiche-hero">
+        <div class="fiche-em">${p.em}</div>
+        <div class="fiche-meta">
+          <div class="fiche-cat-tag">${p.cat} · naturaxe.fr</div>
+          <div class="fiche-title">${p.name}</div>
+          <div class="fiche-sub">Fiche technique complète · Usage & posologie · Contre-indications</div>
+          <div class="fiche-badges">
+            <span class="fiche-badge fb-green">🌿 100% Naturel</span>
+            <span class="fiche-badge fb-teal">✅ Qualité premium</span>
+            <span class="fiche-badge fb-amber">📋 Fiche détaillée</span>
           </div>
         </div>
       </div>
-      <div class="tabs">${tabs}</div>
-      <div class="fcont" id="fc">${cont}</div>
+      <div class="tabs">${tabsHTML}</div>
+      <div class="content">${contents[activeTab]}</div>
     </div>
-    <div class="abar">
-      <div class="aico">🛒</div>
-      <div class="atxt"><b>Commander sur Naturaxe.fr</b><small>Livraison rapide · Paiement 3× sans frais · Qualité certifiée</small></div>
-      <div class="abtn">
-        <a class="b1" href="${p.url}" target="_blank">Commander ↗</a>
-        <a class="b2" href="https://wa.me/635107153?text=${waM}" target="_blank">
-          <svg viewBox="0 0 24 24" fill="currentColor" style="width:13px;height:13px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          WhatsApp
+    <div class="action-bar">
+      <div class="ico">🛒</div>
+      <div class="action-txt">
+        <strong>Commander ce produit sur Naturaxe.fr</strong>
+        <span>Livraison rapide · Paiement 3×sans frais Klarna/PayPal · Qualité certifiée</span>
+      </div>
+      <div class="action-btns">
+        <a class="btn-primary" href="${p.url}" target="_blank">Commander ↗</a>
+        <a class="btn-wa" href="https://wa.me/635107153?text=Bonjour,%20je%20suis%20int%C3%A9ress%C3%A9%20par%20${encodeURIComponent(p.name)}" target="_blank">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Conseil WhatsApp
         </a>
-        <button class="b3" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Haut</button>
+        <button class="btn-outline" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Autres produits</button>
       </div>
     </div>`;
 }
 
 function switchTab(i){
-  aTab=i;
+  activeTab=i;
   const p=PRODS.find(x=>x.id===selId);if(!p)return;
+  const contents=[p.desc,p.posologie,p.maladies,p.synergies,p.contre];
   document.querySelectorAll('.tab').forEach((t,idx)=>t.classList.toggle('on',idx===i));
-  document.getElementById('fc').innerHTML=[p.d,p.p,p.m,p.s,p.ci][i];
-  document.getElementById('fz').scrollIntoView({behavior:'smooth',block:'start'});
+  document.querySelector('.content').innerHTML=contents[i];
+  document.getElementById('ficheZone').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// RECHERCHE — écoute directe sur l'input
-document.getElementById('srch').addEventListener('input',function(){
-  selId=null;
-  document.getElementById('fz').innerHTML='';
-  renderGrid();
-});
-
-renderCats();
-renderGrid();
+document.getElementById('srch').addEventListener('input',()=>{selId=null;renderGrid();document.getElementById('ficheZone').innerHTML='';});
+document.getElementById('totalCount').textContent=PRODS.length;
+renderCats();renderGrid();
 </script>
+</body>
+</html>
